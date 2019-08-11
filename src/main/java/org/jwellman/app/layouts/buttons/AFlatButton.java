@@ -1,4 +1,4 @@
-package org.jwellman.csvviewer.buttons;
+package org.jwellman.app.layouts.buttons;
 
 import java.awt.Image;
 import java.io.IOException;

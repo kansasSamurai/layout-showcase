@@ -1,4 +1,4 @@
-package org.jwellman.csvviewer.examples;
+package org.jwellman.app.layouts.examples;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -27,7 +27,6 @@ public class SimpleBorderLayout extends ExampleAdapter {
     protected static final Color COLOR_GREY_MED = new Color(136,136,136);
     
     public SimpleBorderLayout() {
-
 		this.setLayout(new BorderLayout());		
 		
 		this.add(this.createCenterComponent(), BorderLayout.CENTER);		

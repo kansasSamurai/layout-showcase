@@ -1,4 +1,4 @@
-package org.jwellman.csvviewer.examples;
+package org.jwellman.app.layouts.examples;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -8,33 +8,38 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 
 import org.jwellman.swing.jpanel.ImagePanel;
 
 /**
+ * A transparent JTextArea within a JPanel that has been 
+ * customized with an image background.
+ * 
+ * Note:  This version purposely omits putting the JTextArea
+ * in a JScrollPane.  I wanted to prove the concept was possible
+ * before introducing other components. 
+ *  
+ * See TransparentTextAreaScrollable for making it scrollable
+ * (which you will probably always want)
  * 
  * @author rwellman
  *
  */
 @SuppressWarnings("serial")
-public class TransparentScrollableTextArea extends ExampleAdapter implements ActionListener {
+public class TransparentTextArea extends ExampleAdapter implements ActionListener {
 
-	private JTextArea text;
-	private JToggleButton btn;
-	private JScrollPane scroll;
+	JTextArea text;
+	JToggleButton btn;
 	
-	private static final Color TRANSPARENT = new Color(0,0,0,0);
-	
-	public TransparentScrollableTextArea() {
+	public TransparentTextArea() {
 		super();
 		this.setLayout(new BorderLayout());
 		// this.setBorder(BorderFactory.createLineBorder(Color.yellow, 1));
 		this.createContents();
 		
-		this.name = "Trspt Scrollable JTextArea";
+		this.name = "Transparent JTextArea";
 		this.setImagePath("/images/examples/swing.gif");
 	}
 	
@@ -54,19 +59,13 @@ public class TransparentScrollableTextArea extends ExampleAdapter implements Act
 		text.setCaretColor(textColor);
 		text.setBorder(BorderFactory.createEmptyBorder(9,9,9,9));
 		
-		scroll = new JScrollPane(text);
-		scroll.setBorder(null);
-		scroll.setOpaque(false); // scroll.setBackground(TRANSPARENT);
-		scroll.getViewport().setOpaque(false); // scroll.getViewport().setBackground(TRANSPARENT);
-		
 		JPanel panel = new ImagePanel("/images/golf/golf_ballongreen.jpg");
 		panel.setLayout(new BorderLayout());
-		panel.add(scroll, BorderLayout.CENTER);						
+		panel.add(text, BorderLayout.CENTER);						
 		this.add(panel, BorderLayout.CENTER);
 		
 		btn = new JToggleButton("Read Only");
 		btn.addActionListener(this);
-		btn.setFocusable(false);
 		panel = new JPanel(new GridBagLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(9,0,9,0));
 		panel.add(btn);

@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
+import java.util.Properties;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -15,6 +16,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.metal.MetalTheme;
 
 //import net.sourceforge.napkinlaf.NapkinLookAndFeel;
 //import net.sourceforge.napkinlaf.NapkinTheme;
@@ -30,6 +33,7 @@ import com.nilo.plaf.nimrod.NimRODTheme;
  *
  * @author Rick Wellman
  */
+@SuppressWarnings("unused")
 public class Stone {
 
 /** The user's entry point UI in a JPanel */
@@ -93,23 +97,66 @@ public Foundation init(uContext c) {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 final String name = info.getName(); System.out.println(name);
-                if ("Metal".equals(name)) { // Metal, Nimbus, CDE/Motif, Windows , Windows Classic                    
-                    
-                    final int version = 1;
+                if ("Metal".equals(name)) { // Metal, Nimbus, CDE/Motif, Windows , Windows Classic                   
+
+                    final int MATCHES_SETTING = 1;
+                    final int WEB_LAF = 2;
+                    final int TBD = 3;
+                    final int SYSTEM_LAF = 4;
+                    final int NIMROD_LAF = 5;
+                    final int JTATTOO_LAF = 6;
+
+ 		            // Some LnF/Themes use properties (JTattoo, ...)
+		            Properties props = new Properties();
+
+          			final int version = MATCHES_SETTING; // WEB_LAF; //MATCHES_SETTING;
                     switch (version) {
                         case 1:
-                            UIManager.setLookAndFeel(info.getClassName());
-                            
                             // http://robertour.com/2016/04/25/quickly-improving-java-metal-look-feel/
                             // https://thebadprogrammer.com/swing-uimanager-keys/
                             if ("Metal".equals(name)) { // Metal, Nimbus, CDE/Motif, Windows , Windows Classic
-                                // setUIFont (new javax.swing.plaf.FontUIResource("Sans Serif",Font.PLAIN,12));
+
+                            	// MetalLookAndFeel.setCurrentTheme(new RedTheme());
+
+                                // http://robertour.com/2016/04/25/quickly-improving-java-metal-look-feel/
+                                // https://thebadprogrammer.com/swing-uimanager-keys/                                                               
+                                UIManager.put("swing.boldMetal", Boolean.FALSE);
                                 UIManager.put("Button.background",  Color.decode("#eeeeee"));
                                 UIManager.put("ToggleButton.background",  Color.decode("#eeeeee"));
-//                                UIManager.put("Button.border", new CompoundBorder(new LineBorder(new Color(200, 200, 200)), new EmptyBorder(2, 2, 2, 2)));
-//                                UIManager.put("ToggleButton.border", new CompoundBorder(new LineBorder(new Color(200, 200, 200)), new EmptyBorder(2, 2, 2, 2)));
+                                // UIManager.put("Button.border", new CompoundBorder(new LineBorder(new Color(200, 200, 200)), new EmptyBorder(2, 2, 2, 2)));
+                                // UIManager.put("ToggleButton.border", new CompoundBorder(new LineBorder(new Color(200, 200, 200)), new EmptyBorder(2, 2, 2, 2)));
+
+                                // setUIFont( new javax.swing.plaf.FontUIResource("Segoe UI", Font.PLAIN, 14) );
+
                             }
+
+                            UIManager.setLookAndFeel(info.getClassName());
                             
+                            /*
+                             * From DefaultMetalTheme:
+                                private static final String[] defaultNames = {
+                                    "swing.plaf.metal.controlFont",
+                                    "swing.plaf.metal.systemFont",
+                                    "swing.plaf.metal.userFont",
+                                    "swing.plaf.metal.controlFont",
+                                    "swing.plaf.metal.controlFont",
+                                    "swing.plaf.metal.smallFont"
+                                };
+
+                                -Dswing.plaf.metal.userFont=Calibri-18
+                                -Dswing.plaf.metal.smallFont=Calibri-12
+                                -Dswing.plaf.metal.systemFont=Consolas-18
+                                -Dswing.plaf.metal.controlFont=Tahoma-24
+                             */
+
+//                            final MetalLookAndFeel lnf = ((MetalLookAndFeel)UIManager.getLookAndFeel());
+                            final MetalTheme currentmetaltheme = MetalLookAndFeel.getCurrentTheme();
+
+                            System.out.println("MetalTheme user font: " + currentmetaltheme.getUserTextFont().getFontName());
+                            System.out.println("MetalTheme small font: " + currentmetaltheme.getSubTextFont().getName());
+                            System.out.println("MetalTheme system font: " + currentmetaltheme.getSystemTextFont().getName());
+                            System.out.println("MetalTheme control font: " + currentmetaltheme.getControlTextFont().getName());
+
                             break;
                         case 2:
                             UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel"); // works but need to upgrade to 1.29 from 1.27
@@ -167,6 +214,9 @@ public Foundation init(uContext c) {
                         			
                         	}
                             break;
+                        case 6: // JTATTOO_LAF
+                            break;
+
                         default:
                         	break;
                     }

@@ -1,4 +1,4 @@
-package org.jwellman.csvviewer;
+package org.jwellman.app.layouts;
 
 import org.jwellman.foundation.Foundation;
 import org.jwellman.foundation.uContext;

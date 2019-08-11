@@ -1,8 +1,8 @@
-package org.jwellman.csvviewer.jswing.ch19;
+package org.jwellman.app.layouts.jswing.ch19;
 
 import javax.swing.*;
 
-import org.jwellman.csvviewer.examples.ExampleAdapter;
+import org.jwellman.app.layouts.examples.ExampleAdapter;
 
 import java.awt.event.*;
 import java.awt.*;

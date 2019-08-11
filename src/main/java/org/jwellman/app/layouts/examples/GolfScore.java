@@ -1,4 +1,4 @@
-package org.jwellman.csvviewer.examples;
+package org.jwellman.app.layouts.examples;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -24,6 +24,11 @@ public class GolfScore extends SimpleBorderLayout {
 	
 	private static final Color LIGHT = Color.LIGHT_GRAY;
 	
+	private static final Font FONT_FOOTER = new Font("Arial Rounded MT Bold", Font.PLAIN, 10);
+	
+	private static final Font FONT_FOOTER_BOLD = new Font("Arial Rounded MT Bold", Font.BOLD, 10);	
+	// Arial Rounded MT Bold , 12
+	
 	private static final Font FONT_TITLE = new Font("Arial Narrow", Font.BOLD, 28);
 	// ***** Arial Narrow ! 
 	// **    Arial Unicode MS << good look, poor spacing
@@ -36,12 +41,15 @@ public class GolfScore extends SimpleBorderLayout {
 	// **    Microsoft Sans Serif , bold << too skinny
 	// ***** Segoe UI ? bold << this may have the best numbers
 	
+		private static final Border HEADTAIL = BorderFactory.createEmptyBorder(0,5,0,5);
 	
-	private static final Font FONT_FOOTER = new Font("Arial Rounded MT Bold", Font.PLAIN, 10);	
-	private static final Font FONT_FOOTER_BOLD = new Font("Arial Rounded MT Bold", Font.BOLD, 10);	
-	// Arial Rounded MT Bold , 12
-	
-	private static final Border HEADTAIL = BorderFactory.createEmptyBorder(0,5,0,5);
+	public GolfScore() {
+		super();
+		
+		this.name = "Golf Score Panel";
+		this.textDescription = "Long description goes here...";
+		this.setImagePath("/images/examples/swing.gif");
+	}
 	
 	protected Component createSouthComponent() {		
 		JPanel panel = new JPanel();
@@ -72,7 +80,7 @@ public class GolfScore extends SimpleBorderLayout {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
 
 		JLabel label = new JLabel("LOGO");
-		label.setBorder(BORDER_EMPTY);
+		label.setBorder(HEADTAIL);
 		label.setFont(FONT_TITLE);
 		label.setForeground(Color.WHITE);
 		panel.add(label);

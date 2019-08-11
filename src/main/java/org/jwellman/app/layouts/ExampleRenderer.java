@@ -1,4 +1,4 @@
-package org.jwellman.csvviewer;
+package org.jwellman.app.layouts;
 
 import java.awt.Color;
 import java.awt.Component;

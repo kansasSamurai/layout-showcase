@@ -1,4 +1,4 @@
-package org.jwellman.csvviewer.examples;
+package org.jwellman.app.layouts.examples;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -8,29 +8,35 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 
 import org.jwellman.swing.jpanel.ImagePanel;
 
 /**
+ * A transparent JTextArea set in a JScrollPane within
+ * a JPanel that has been customized with an image background.
  * 
  * @author rwellman
  *
  */
 @SuppressWarnings("serial")
-public class TransparentTextArea extends ExampleAdapter implements ActionListener {
+public class TransparentTextAreaScrollable extends ExampleAdapter implements ActionListener {
 
-	JTextArea text;
-	JToggleButton btn;
+	private JTextArea text;
+	private JScrollPane scroll;
+	private JToggleButton btn;
+	private String BTN_LABEL_READONLY = "Read Only";
+	private String BTN_LABEL_EDITABLE = "Editable";
 	
-	public TransparentTextArea() {
+	public TransparentTextAreaScrollable() {
 		super();
 		this.setLayout(new BorderLayout());
 		// this.setBorder(BorderFactory.createLineBorder(Color.yellow, 1));
 		this.createContents();
 		
-		this.name = "Transparent JTextArea";
+		this.name = "Trspt Scrollable JTextArea";
 		this.setImagePath("/images/examples/swing.gif");
 	}
 	
@@ -41,22 +47,30 @@ public class TransparentTextArea extends ExampleAdapter implements ActionListene
 		final Color textColor = Color.white;
 		
 		text = new JTextArea("Start with this text...");
-		text.setLineWrap(true);
+		text.setLineWrap(false); // true works; testing false
 		text.setWrapStyleWord(true);
 		text.setEditable(false);
 		text.setOpaque(false);
-		text.setBackground(new Color(0,0,0,0));
+		text.setBackground(TRANSPARENT);
 		text.setForeground(textColor);
 		text.setCaretColor(textColor);
 		text.setBorder(BorderFactory.createEmptyBorder(9,9,9,9));
 		
-		JPanel panel = new ImagePanel("/images/golf/golf_ballongreen.jpg");
+		scroll = new JScrollPane(text);
+		scroll.setBorder(null);
+		scroll.setOpaque(false); // scroll.setBackground(TRANSPARENT);
+		scroll.getViewport().setOpaque(false); // scroll.getViewport().setBackground(TRANSPARENT);
+		
+		// golf_ballongreen.jpg | ...
+		JPanel panel = new ImagePanel("/images/golf/silhouette_approachshot.jfif");
 		panel.setLayout(new BorderLayout());
-		panel.add(text, BorderLayout.CENTER);						
+		panel.add(scroll, BorderLayout.CENTER);						
 		this.add(panel, BorderLayout.CENTER);
 		
-		btn = new JToggleButton("Read Only");
+		btn = new JToggleButton(BTN_LABEL_READONLY);
 		btn.addActionListener(this);
+		btn.setFocusable(false);
+
 		panel = new JPanel(new GridBagLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(9,0,9,0));
 		panel.add(btn);
@@ -68,7 +82,7 @@ public class TransparentTextArea extends ExampleAdapter implements ActionListene
 	public void actionPerformed(ActionEvent e) {
 		final boolean enabled = btn.getModel().isSelected();
 		text.setEditable(enabled);		
-		btn.setText(enabled ? "Editable" : "Read Only");
+		btn.setText(enabled ? BTN_LABEL_EDITABLE : BTN_LABEL_READONLY);
 	}
 	
 }

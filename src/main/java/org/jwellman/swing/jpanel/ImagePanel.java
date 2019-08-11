@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  *
  */
 @SuppressWarnings("serial")
-public class ImagePanel extends JPanel{
+public class ImagePanel extends JPanel {
 
     private BufferedImage image;
 
@@ -39,9 +39,10 @@ public class ImagePanel extends JPanel{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        Graphics g2 = g.create();       
+        final Graphics g2 = g.create();       
 //        g2.clipRect(0, 0, 200, 200);
-        g2.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null); // this was the original implementation
+        g2.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null); 
+        // this was the original implementation
         // but it needed the clip defined so that textareas would wrap correctly;
         // I am not yet sure of the exact root cause.
     }

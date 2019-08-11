@@ -1,4 +1,4 @@
-package org.jwellman.csvviewer;
+package org.jwellman.app.layouts;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -11,13 +11,18 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.jwellman.csvviewer.examples.BasicWithPanels;
-import org.jwellman.csvviewer.examples.JEditorPane;
-import org.jwellman.csvviewer.examples.SimpleBorderLayout;
-import org.jwellman.csvviewer.examples.ToolbarLayout;
-import org.jwellman.csvviewer.examples.TransparentScrollableTextArea;
-import org.jwellman.csvviewer.examples.TransparentTextArea;
-import org.jwellman.csvviewer.jswing.ch19.TextForm;
+import org.jwellman.app.layouts.examples.BasicWithFlowLayout;
+import org.jwellman.app.layouts.examples.BasicWithJLabelDemo;
+import org.jwellman.app.layouts.examples.BasicWithPanels;
+import org.jwellman.app.layouts.examples.DashboardLayout;
+import org.jwellman.app.layouts.examples.GolfScore;
+import org.jwellman.app.layouts.examples.JEditorPane;
+import org.jwellman.app.layouts.examples.ResponsiveDashboard;
+import org.jwellman.app.layouts.examples.SimpleBorderLayout;
+import org.jwellman.app.layouts.examples.ToolbarLayout;
+import org.jwellman.app.layouts.examples.TransparentTextAreaScrollable;
+import org.jwellman.app.layouts.examples.TransparentTextArea;
+import org.jwellman.app.layouts.jswing.ch19.TextForm;
 import org.jwellman.swing.layout.BetterCardLayout;
 
 @SuppressWarnings({"serial","rawtypes","unchecked","unused"})
@@ -68,10 +73,15 @@ public class LayoutBrowser extends JPanel implements ListSelectionListener {
 	private Example[] examples = {
 	    new SimpleBorderLayout()
 	    ,new BasicWithPanels()
+	    ,new BasicWithFlowLayout()
+	    ,new BasicWithJLabelDemo()
 	    ,new ToolbarLayout()
+	    ,new DashboardLayout()
+	    ,new ResponsiveDashboard()
 	    ,new JEditorPane()
 	    ,new TransparentTextArea()
-	    ,new TransparentScrollableTextArea()
+	    ,new TransparentTextAreaScrollable()
+	    ,new GolfScore()
 	    ,new TextForm()
 	    ,new ToolbarLayout()
 	    ,new ToolbarLayout()

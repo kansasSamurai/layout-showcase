@@ -1,5 +1,6 @@
-package org.jwellman.csvviewer.examples;
+package org.jwellman.app.layouts.examples;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.LayoutManager;
 import java.net.URL;
@@ -7,11 +8,12 @@ import java.net.URL;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
-import org.jwellman.csvviewer.Example;
+import org.jwellman.app.layouts.Example;
 
 @SuppressWarnings("serial")
-public class ExampleAdapter extends JPanel implements Example {
+public class ExampleAdapter extends JPanel implements Example, SwingConstants {
 
 	private Icon image;
 	
@@ -21,6 +23,8 @@ public class ExampleAdapter extends JPanel implements Example {
 	
 	protected String textDescription;
 	
+	protected static final Color TRANSPARENT = new Color(0,0,0,0);
+
 	// TODO need a default icon/imagePath
 	private String imagePath = "";
 	

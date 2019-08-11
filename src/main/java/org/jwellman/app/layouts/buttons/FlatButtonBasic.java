@@ -1,4 +1,4 @@
-package org.jwellman.csvviewer.buttons;
+package org.jwellman.app.layouts.buttons;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -15,8 +15,9 @@ public class FlatButtonBasic extends AFlatButton {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Color rollColor = new Color(0x6600CC);
-	private static final Color pressColor = new Color(0x5200B8);
+	private static final Color rollColor = new Color(0x6600CC); // 6600cc = purple
+	
+	private static final Color pressColor = new Color(0x6D6D6D); // 0x5200B8
 	
 	private static final Dimension DIMENSION = new Dimension(0,0);
 	
@@ -49,22 +50,20 @@ public class FlatButtonBasic extends AFlatButton {
 
 	@Override
 	public void paintComponent(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g.create();
 		
 		final ButtonModel model = this.getModel();
 		
 		if (model.isPressed()) {
 			final Rectangle r = this.getBounds(); 
 			
-			Graphics2D g2 = (Graphics2D) g.create();
             g2.setColor(pressColor);            
             g2.fillRect(0, 0, r.width, r.height );
             g2.dispose();
-		}
-		
-		if (model.isRollover()) {
+		} else if (model.isRollover()) {
 			final Rectangle r = this.getBounds(); 
+			System.out.print(".ro");
 			
-			Graphics2D g2 = (Graphics2D) g.create();
             g2.setColor(rollColor);            
             g2.fillRect(0, 0, r.width, r.height );
 //          g2.fillRect(1, 1, r.width-2, r.height-2 );
