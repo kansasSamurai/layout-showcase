@@ -61,8 +61,7 @@ public class TransparentTextAreaScrollable extends ExampleAdapter implements Act
 		scroll.setOpaque(false); // scroll.setBackground(TRANSPARENT);
 		scroll.getViewport().setOpaque(false); // scroll.getViewport().setBackground(TRANSPARENT);
 		
-		// golf_ballongreen.jpg | ...
-		JPanel panel = new ImagePanel("/images/golf/silhouette_approachshot.jfif");
+		JPanel panel = new ImagePanel("/images/golf/golf_ballongreen.jpg");
 		panel.setLayout(new BorderLayout());
 		panel.add(scroll, BorderLayout.CENTER);						
 		this.add(panel, BorderLayout.CENTER);

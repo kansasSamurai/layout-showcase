@@ -61,13 +61,13 @@ public class RoundedCornerBorder extends AbstractBorder {
 		g2.dispose();
 	}
 
-	private static final int TB = 8; // 8
-	private static final int LR = 8; // 4
+	private static final int TB = 8; // 8 TB:=top/bottom
+	private static final int LR = 8; // 4 LR:=left/right
 	
 	// TODO 
 	// Q: Shouldn't this be private?  If so, need to remove from RoundedTextField
-	// A: Well, the custom textfield uses this to paint the background color
-	//    so the answer, for now, is 'no'
+	// A: Well, the custom textfield class 'RoundedTextField' uses this to paint 
+	//    the background color so the answer, for now, is 'no'
 	public Shape getBorderShape(int x, int y, int w, int h) {
 		int r = h; // = h-2; // This is semi-circular end caps
 		System.out.println(",r:" + r);

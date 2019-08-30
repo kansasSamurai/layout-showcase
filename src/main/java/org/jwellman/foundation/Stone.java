@@ -25,6 +25,9 @@ import org.jwellman.foundation.swing.IWindow;
 import org.jwellman.foundation.swing.XFrame;
 import org.jwellman.foundation.swing.XInternalFrame;
 
+import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
+import com.jtattoo.plaf.fast.FastLookAndFeel;
+import com.jtattoo.plaf.smart.SmartLookAndFeel;
 import com.nilo.plaf.nimrod.NimRODLookAndFeel;
 import com.nilo.plaf.nimrod.NimRODTheme;
 
@@ -58,181 +61,266 @@ protected XFrame frame;
 protected XInternalFrame internalFrame;
 
 
-
+// Look and Feel (LAF) identifiers
+private static final int LAF_MATCHES_SETTING = 1;
+private static final int LAF_WEB = 2;
+private static final int LAF_TBD = 3;
+private static final int LAF_SYSTEM = 4;
+private static final int LAF_NIMROD = 5;
+private static final int LAF_JTATTOO = 6;
+private static final int LAF_DARCULA = 7;
 
 
 public Foundation init() {
     return init(null);
 }
 
-public Foundation init(uContext c) {
+	public Foundation init(uContext c) {
+	
+	    if (!isInitialized) {
+	        isInitialized = true;
+	
+	        // Log the application classpath for debugging purposes
+	        System.out.println("----- Application Classpath -----");
+	        final ClassLoader cl = ClassLoader.getSystemClassLoader();
+	        final URL[] urls = ((URLClassLoader)cl).getURLs();
+	        for (URL url: urls){
+	            System.out.println(url.getFile());
+	        }
+	
+	        // Apply anti-aliasing for better rendering (particulary fonts)
+	        // The following may have some subtle system dependent behavior:
+	        // http://stackoverflow.com/questions/179955/how-do-you-enable-anti-aliasing-in-arbitrary-java-apps
+	        // Try System.setProperty("awt.useSystemAAFontSettings", "lcd"); and you should get ClearType
+			// https://www.javalobby.org/java/forums/t98492.html
+			//      System.setProperty("awt.useSystemAAFontSettings","on");
+			//      System.setProperty("swing.aatext", "true");
+	
+	        // Make sure our window decorations come from the look and feel.
+	        JFrame.setDefaultLookAndFeelDecorated(false); // I changed my mind... I think the OS frame makes more sense
+	
+	        // Conditionally apply context settings...
+	        context = (c != null) ? c : uContext.createContext();
+	        if (context.getTheme() != null) { context.getTheme().doCustomTheme(); }
+	
+	        // Prefer Nimbus over default look and feel.
+	        try {
+	            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+	                final String name = info.getName(); System.out.println(name);
+	                if ("Metal".equals(name)) { // Metal, Nimbus, CDE/Motif, Windows , Windows Classic                   
+	
+	
+	 		            // Some LnF/Themes use properties (JTattoo, ...)
+			            Properties props = new Properties();
+	
+	          			final int version = LAF_DARCULA; // LAF_WEB; //LAF_MATCHES_SETTING;
+	                    switch (version) {
+	                        case 1:
+	                            // http://robertour.com/2016/04/25/quickly-improving-java-metal-look-feel/
+	                            // https://thebadprogrammer.com/swing-uimanager-keys/
+	                            if ("Metal".equals(name)) { // Metal, Nimbus, CDE/Motif, Windows , Windows Classic
+	
+	                            	// MetalLookAndFeel.setCurrentTheme(new RedTheme());
+	
+	                                // http://robertour.com/2016/04/25/quickly-improving-java-metal-look-feel/
+	                                // https://thebadprogrammer.com/swing-uimanager-keys/                                                               
+	                                UIManager.put("swing.boldMetal", Boolean.FALSE);
+	                                UIManager.put("Button.background",  Color.decode("#eeeeee"));
+	                                UIManager.put("ToggleButton.background",  Color.decode("#eeeeee"));
+	                                // UIManager.put("Button.border", new CompoundBorder(new LineBorder(new Color(200, 200, 200)), new EmptyBorder(2, 2, 2, 2)));
+	                                // UIManager.put("ToggleButton.border", new CompoundBorder(new LineBorder(new Color(200, 200, 200)), new EmptyBorder(2, 2, 2, 2)));
+	
+	                                // setUIFont( new javax.swing.plaf.FontUIResource("Segoe UI", Font.PLAIN, 14) );
+	
+	                            }
+	
+	                            UIManager.setLookAndFeel(info.getClassName());
+	                            
+	                            /*
+	                             * From DefaultMetalTheme:
+	                                private static final String[] defaultNames = {
+	                                    "swing.plaf.metal.controlFont",
+	                                    "swing.plaf.metal.systemFont",
+	                                    "swing.plaf.metal.userFont",
+	                                    "swing.plaf.metal.controlFont",
+	                                    "swing.plaf.metal.controlFont",
+	                                    "swing.plaf.metal.smallFont"
+	                                };
+	
+	                                -Dswing.plaf.metal.userFont=Calibri-18
+	                                -Dswing.plaf.metal.smallFont=Calibri-12
+	                                -Dswing.plaf.metal.systemFont=Consolas-18
+	                                -Dswing.plaf.metal.controlFont=Tahoma-24
+	                             */
+	
+	//                            final MetalLookAndFeel lnf = ((MetalLookAndFeel)UIManager.getLookAndFeel());
+	                            final MetalTheme currentmetaltheme = MetalLookAndFeel.getCurrentTheme();
+	
+	                            System.out.println("MetalTheme user font: " + currentmetaltheme.getUserTextFont().getFontName());
+	                            System.out.println("MetalTheme small font: " + currentmetaltheme.getSubTextFont().getName());
+	                            System.out.println("MetalTheme system font: " + currentmetaltheme.getSystemTextFont().getName());
+	                            System.out.println("MetalTheme control font: " + currentmetaltheme.getControlTextFont().getName());
+	
+	                            break;
+	                        case 2:
+	                            UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel"); // works but need to upgrade to 1.29 from 1.27
+	                            break;
+	                        case 3:
+	//                            String[] themeNames = NapkinTheme.Manager.themeNames();
+	//                            String themeToUse = "blueprint"; // napkin | blueprint
+	//                            NapkinTheme.Manager.setCurrentTheme(themeToUse);
+	//                            LookAndFeel laf = new NapkinLookAndFeel();
+	//                            UIManager.setLookAndFeel(laf);
+	                            break;
+	                        case 4:
+	                            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	                            break;
+	                        case LAF_NIMROD:
+	                        	doNimrodLAF();	                        	
+	                            break;
+	                            
+	                        case LAF_JTATTOO: // JTATTOO_LAF
+	                        	doJTattooLAF();
+	                            break;
+	
+	                        case LAF_DARCULA:
+	                        	doDarculaLAF();
+	                        	break;
+	                        	
+	                        default:
+	                        	break;
+	                    }
+	
+	                    break;
+	                }
+	//                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	            }
+	        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+	            // If Nimbus is not available, you can set the GUI to another look and feel.
+	        }
+	
+	    }
+	    
+	    return (Foundation) this;
+	} // end method
 
-    if (!isInitialized) {
-        isInitialized = true;
+	private void doDarculaLAF() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+		UIManager.setLookAndFeel("com.bulenkov.darcula.DarculaLaf"); 		
+	}
 
-        // Log the application classpath for debugging purposes
-        System.out.println("----- Application Classpath -----");
-        final ClassLoader cl = ClassLoader.getSystemClassLoader();
-        final URL[] urls = ((URLClassLoader)cl).getURLs();
-        for (URL url: urls){
-            System.out.println(url.getFile());
-        }
+	private void doNimrodLAF() throws UnsupportedLookAndFeelException {
+    	final NimRODLookAndFeel NimRODLF = new NimRODLookAndFeel();
 
-        // Apply anti-aliasing for better rendering (particulary fonts)
-        // The following may have some subtle system dependent behavior:
-        // http://stackoverflow.com/questions/179955/how-do-you-enable-anti-aliasing-in-arbitrary-java-apps
-        // Try System.setProperty("awt.useSystemAAFontSettings", "lcd"); and you should get ClearType
-		// https://www.javalobby.org/java/forums/t98492.html
-		//      System.setProperty("awt.useSystemAAFontSettings","on");
-		//      System.setProperty("swing.aatext", "true");
-
-        // Make sure our window decorations come from the look and feel.
-        JFrame.setDefaultLookAndFeelDecorated(false); // I changed my mind... I think the OS frame makes more sense
-
-        // Conditionally apply context settings...
-        context = (c != null) ? c : uContext.createContext();
-        if (context.getTheme() != null) { context.getTheme().doCustomTheme(); }
-
-        // Prefer Nimbus over default look and feel.
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                final String name = info.getName(); System.out.println(name);
-                if ("Metal".equals(name)) { // Metal, Nimbus, CDE/Motif, Windows , Windows Classic                   
-
-                    final int MATCHES_SETTING = 1;
-                    final int WEB_LAF = 2;
-                    final int TBD = 3;
-                    final int SYSTEM_LAF = 4;
-                    final int NIMROD_LAF = 5;
-                    final int JTATTOO_LAF = 6;
-
- 		            // Some LnF/Themes use properties (JTattoo, ...)
-		            Properties props = new Properties();
-
-          			final int version = MATCHES_SETTING; // WEB_LAF; //MATCHES_SETTING;
-                    switch (version) {
-                        case 1:
-                            // http://robertour.com/2016/04/25/quickly-improving-java-metal-look-feel/
-                            // https://thebadprogrammer.com/swing-uimanager-keys/
-                            if ("Metal".equals(name)) { // Metal, Nimbus, CDE/Motif, Windows , Windows Classic
-
-                            	// MetalLookAndFeel.setCurrentTheme(new RedTheme());
-
-                                // http://robertour.com/2016/04/25/quickly-improving-java-metal-look-feel/
-                                // https://thebadprogrammer.com/swing-uimanager-keys/                                                               
-                                UIManager.put("swing.boldMetal", Boolean.FALSE);
-                                UIManager.put("Button.background",  Color.decode("#eeeeee"));
-                                UIManager.put("ToggleButton.background",  Color.decode("#eeeeee"));
-                                // UIManager.put("Button.border", new CompoundBorder(new LineBorder(new Color(200, 200, 200)), new EmptyBorder(2, 2, 2, 2)));
-                                // UIManager.put("ToggleButton.border", new CompoundBorder(new LineBorder(new Color(200, 200, 200)), new EmptyBorder(2, 2, 2, 2)));
-
-                                // setUIFont( new javax.swing.plaf.FontUIResource("Segoe UI", Font.PLAIN, 14) );
-
-                            }
-
-                            UIManager.setLookAndFeel(info.getClassName());
-                            
-                            /*
-                             * From DefaultMetalTheme:
-                                private static final String[] defaultNames = {
-                                    "swing.plaf.metal.controlFont",
-                                    "swing.plaf.metal.systemFont",
-                                    "swing.plaf.metal.userFont",
-                                    "swing.plaf.metal.controlFont",
-                                    "swing.plaf.metal.controlFont",
-                                    "swing.plaf.metal.smallFont"
-                                };
-
-                                -Dswing.plaf.metal.userFont=Calibri-18
-                                -Dswing.plaf.metal.smallFont=Calibri-12
-                                -Dswing.plaf.metal.systemFont=Consolas-18
-                                -Dswing.plaf.metal.controlFont=Tahoma-24
-                             */
-
-//                            final MetalLookAndFeel lnf = ((MetalLookAndFeel)UIManager.getLookAndFeel());
-                            final MetalTheme currentmetaltheme = MetalLookAndFeel.getCurrentTheme();
-
-                            System.out.println("MetalTheme user font: " + currentmetaltheme.getUserTextFont().getFontName());
-                            System.out.println("MetalTheme small font: " + currentmetaltheme.getSubTextFont().getName());
-                            System.out.println("MetalTheme system font: " + currentmetaltheme.getSystemTextFont().getName());
-                            System.out.println("MetalTheme control font: " + currentmetaltheme.getControlTextFont().getName());
-
-                            break;
-                        case 2:
-                            UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel"); // works but need to upgrade to 1.29 from 1.27
-                            break;
-                        case 3:
-//                            String[] themeNames = NapkinTheme.Manager.themeNames();
-//                            String themeToUse = "blueprint"; // napkin | blueprint
-//                            NapkinTheme.Manager.setCurrentTheme(themeToUse);
-//                            LookAndFeel laf = new NapkinLookAndFeel();
-//                            UIManager.setLookAndFeel(laf);
-                            break;
-                        case 4:
-                            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                            break;
-                        case 5:
-                        	NimRODTheme nt = null;
-                        	NimRODLookAndFeel NimRODLF = new NimRODLookAndFeel();
-                        	
-                        	int theme = 3;
-                        	switch (theme) {
-                        	case 1: // this has been testedand works
-                            	UIManager.setLookAndFeel( new com.nilo.plaf.nimrod.NimRODLookAndFeel());
-                            	break;
-                        	case 2: // this has been tested and works
-                        		nt = new NimRODTheme();
-                        		// syracuse
-                          		nt.setPrimary1( new Color(0xEB1F00) ); // scroll thumb border
-                        		nt.setPrimary2( new Color(0xF52900) ); // jtable.selection, scroll thumb, checkbox bgnd, text focus(highlighter)
-                        		nt.setPrimary3( new Color(0xFF3300) );
-                        		// firehat
+    	NimRODTheme nt = null;
+    	
+    	int theme = 3;
+    	switch (theme) {
+    	case 1: // this has been testedand works
+        	UIManager.setLookAndFeel( new com.nilo.plaf.nimrod.NimRODLookAndFeel());
+        	break;
+    	case 2: // this has been tested and works
+    		nt = new NimRODTheme();
+    		// syracuse
+      		nt.setPrimary1( new Color(0xEB1F00) ); // scroll thumb border
+    		nt.setPrimary2( new Color(0xF52900) ); // jtable.selection, scroll thumb, checkbox bgnd, text focus(highlighter)
+    		nt.setPrimary3( new Color(0xFF3300) );
+    		// firehat
 //                        		nt.setPrimary1( new Color(0xB80000) ); // scroll thumb border
 //                        		nt.setPrimary2( new Color(0xC20000) ); // jtable.selection, scroll thumb, checkbox bgnd, text focus(highlighter)
 //                        		nt.setPrimary3( new Color(0xCC0000) );
-                        		nt.setSecondary1( new Color(0x1F1F1F) );
-                        		nt.setSecondary2( new Color(0x292929) );
-                        		nt.setSecondary3( new Color(0x333333) );
-                        		nt.setBlack( new Color(0xCCCCCC) ); // text components (button, jtable, etc.)
-                        		nt.setWhite( new Color(0x666666) ); // text bgnd
-                        		nt.setFont(new Font("Consolas",Font.PLAIN,16));
-                        		
+    		nt.setSecondary1( new Color(0x1F1F1F) );
+    		nt.setSecondary2( new Color(0x292929) );
+    		nt.setSecondary3( new Color(0x333333) );
+    		nt.setBlack( new Color(0xCCCCCC) ); // text components (button, jtable, etc.)
+    		nt.setWhite( new Color(0x666666) ); // text bgnd
+    		nt.setFont(new Font("Consolas",Font.PLAIN,16));
+    		
 //                        		NimRODLF = new NimRODLookAndFeel();
-                        		NimRODLookAndFeel.setCurrentTheme(nt);
-                        		UIManager.setLookAndFeel(NimRODLF);
-                        		break;
-                        	case 3:                        		
-                        		// greyscale , blueberry , NimRODThemeFile_rix_mint_segoeui
-                        		// themes/nimrod/NimRODThemeFile_rix_mint_segoeui.theme
-                        		nt = new NimRODTheme("NimRODThemeFile_rix_royale_calibri.theme");
-                        		//NimRODLF = new NimRODLookAndFeel();
-                        		NimRODLookAndFeel.setCurrentTheme(nt);
-                        		UIManager.setLookAndFeel(NimRODLF);                        		
-                        		break;
-                        	default:
-                            	UIManager.setLookAndFeel( new com.nilo.plaf.nimrod.NimRODLookAndFeel());
-                        			
-                        	}
-                            break;
-                        case 6: // JTATTOO_LAF
-                            break;
+    		NimRODLookAndFeel.setCurrentTheme(nt);
+    		UIManager.setLookAndFeel(NimRODLF);
+    		break;
+    	case 3:                        		
+    		// greyscale , blueberry , NimRODThemeFile_rix_mint_segoeui
+    		// themes/nimrod/NimRODThemeFile_rix_mint_segoeui.theme
+    		nt = new NimRODTheme("NimRODThemeFile_rix_royale_calibri.theme");
+    		//NimRODLF = new NimRODLookAndFeel();
+    		NimRODLookAndFeel.setCurrentTheme(nt);
+    		UIManager.setLookAndFeel(NimRODLF);                        		
+    		break;
+    	default:
+        	UIManager.setLookAndFeel( new com.nilo.plaf.nimrod.NimRODLookAndFeel());
+    			
+    	}
+	}
 
-                        default:
-                        	break;
-                    }
-
-                    break;
-                }
-//                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-            // If Nimbus is not available, you can set the GUI to another look and feel.
-        }
-
-    }
-    
-    return (Foundation) this;
-} // end method
+	private void doJTattooLAF() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+	
+	    // Some LnF/Themes use properties (JTattoo, ...)
+	    Properties props = new Properties();
+	    
+	    boolean useTattooTheme = true;
+	    if (useTattooTheme) {
+	       
+	        boolean demo = false;
+	        if (demo) {
+	
+	            props.put("logoString", "my company");
+	            props.put("licenseKey", "INSERT YOUR LICENSE KEY HERE");
+	           
+	            props.put("selectionBackgroundColor", "180 240 197");
+	            props.put("menuSelectionBackgroundColor", "180 240 197");
+	            
+	            props.put("controlColor", "218 254 230");
+	            props.put("controlColorLight", "218 254 230");
+	            props.put("controlColorDark", "180 240 197");
+	
+	            props.put("buttonColor", "218 230 254");
+	            props.put("buttonColorLight", "255 255 255");
+	            props.put("buttonColorDark", "244 242 232");
+	
+	            props.put("rolloverColor", "218 254 230");
+	            props.put("rolloverColorLight", "218 254 230");
+	            props.put("rolloverColorDark", "180 240 197");
+	
+	            props.put("windowTitleForegroundColor", "0 0 0");
+	            props.put("windowTitleBackgroundColor", "180 240 197");
+	            props.put("windowTitleColorLight", "218 254 230");
+	            props.put("windowTitleColorDark", "180 240 197");
+	            props.put("windowBorderColor", "218 254 230");                                   
+	        }
+	
+	        props.put("subTextFont", "Consolas BOLD 10"); // ???
+	        props.put("userTextFont", "Calibri PLAIN 14"); // JLabel, JCheckbox, Tab Titles, ... // Aluminium only respects:  TableHeaders, Checkboxes, (I assume RadioButtons), ...
+	        props.put("menuTextFont", "Calibri PLAIN 12"); // JMenu, ...
+	        props.put("systemTextFont", "Baskerville BOLD 24"); 
+	        props.put("controlTextFont", "Calibri PLAIN 14"); // JButton, ... // Aluminium does not respect this... well... maybe it does, I just don't know what components it affects yet?
+	        props.put("windowTitleFont", "Calibri PLAIN 16"); // JFrame, (JInternalFrame I asume), ...
+	
+	        // set your theme
+	        // SmartLookAndFeel.setCurrentTheme(props);                                                              
+	
+	    }
+	   
+	    final int tattooLNF = 2;
+	    switch (tattooLNF) {
+	    case 1:
+	        if (useTattooTheme) FastLookAndFeel.setCurrentTheme(props);
+	        UIManager.setLookAndFeel("com.jtattoo.plaf.fast.FastLookAndFeel");                            
+	        break;
+	
+	    case 2:
+	        if (useTattooTheme) SmartLookAndFeel.setCurrentTheme(props);
+	        UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
+	        break;
+	
+	    case 3:
+	        if (useTattooTheme) AluminiumLookAndFeel.setCurrentTheme(props);
+	        UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");                            
+	        break;
+	
+	    }
+	
+	}
 
 /**
  * http://robertour.com/2016/04/25/quickly-improving-java-metal-look-feel/

@@ -59,7 +59,7 @@ public class TransparentTextArea extends ExampleAdapter implements ActionListene
 		text.setCaretColor(textColor);
 		text.setBorder(BorderFactory.createEmptyBorder(9,9,9,9));
 		
-		JPanel panel = new ImagePanel("/images/golf/golf_ballongreen.jpg");
+		JPanel panel = new ImagePanel("/images/golf/silhouette_approachshot.jfif");
 		panel.setLayout(new BorderLayout());
 		panel.add(text, BorderLayout.CENTER);						
 		this.add(panel, BorderLayout.CENTER);

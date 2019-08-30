@@ -36,7 +36,7 @@ public class BasicWithJLabelDemo extends BasicWithPanels {
 		label.setVerticalAlignment(TOP);
 		panel.add(label);
 		
-		label = a("Default(Left/Center)");
+		label = a("Left/Center(Default)");
 		panel.add(label);
 		
 		label = a("Center/Center");

@@ -8,10 +8,12 @@ import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -170,8 +172,12 @@ public class ToolbarLayout extends SimpleBorderLayout implements ActionListener 
 				this.addBorder(jcomp, BorderFactory.createTitledBorder(title));
 				this.decoratePanels(jcomp);
 			} else {
-				if (child instanceof JButton)
-					((JButton)child).setBorderPainted(true);
+				
+				// Some buttons have the "border painted" turned off by default,
+				// others have it turned off by the user. We want the border
+				// always painted since that is the purpose of this utility method.
+				if (child instanceof AbstractButton)
+					((AbstractButton)child).setBorderPainted(true);
 				
 				this.addBorder(jcomp, DEBUG_BORDER);
 			}

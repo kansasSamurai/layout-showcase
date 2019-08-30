@@ -10,6 +10,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -29,9 +31,11 @@ import javax.swing.border.Border;
 
 import org.jwellman.app.layouts.buttons.AFlatButton;
 import org.jwellman.foundation.swing.XCheckBox;
+import org.jwellman.swing.event.FocusAdapterPersistentSelection;
 import org.jwellman.swing.jbutton.RolloverButton;
 import org.jwellman.swing.jlabel.ActionLabel;
 import org.jwellman.swing.jpanel.RestrictedHeightPanel;
+import org.jwellman.swing.jtextfield.RoundField;
 import org.jwellman.swing.jtextfield.RoundedTextField;
 import org.jwellman.swing.text.FancyCaret;
 
@@ -233,23 +237,30 @@ final int version = 1;
 
     	
 	    panel = p();
-	    	textfield = new RoundedTextField("Thgpq");
+	    	textfield = new RoundedTextField(); // new RoundField(6); // new RoundedTextField("Thgpq");
 	    	textfield.setColumns(6);
+	    	textfield.setText("TjgpqA");
 	    	
+	    	// add a listener for focus events
+	    	final JTextField listenerref = textfield;
+
 			// This section is optional to test "fancy caret"
 //			textfield.setCaret(new FancyCaret());
 //	    	textfield.setText("This is a rounded text field...");
 //	    	textfield.setColumns(20);
 //	    	this.addBorder(textfield, BORDER_LINE);
 	    	
+	    	textfield.addFocusListener(new FocusAdapterPersistentSelection(textfield));
 	    	panel.add(textfield);
 
-	    	textfield = new JTextField("Old boring square text field");
+	    	textfield = new JTextField("Tjgpq"); //("Old boring square text field");
 //	    	this.addBorder(textfield, BORDER_LINE);
+	    	textfield.addFocusListener(new FocusAdapterPersistentSelection(textfield));
 	    	panel.add(textfield);
 	    	
-	    	textfield = new JTextField("> text field with my border");
+	    	textfield = new JTextField("Tjgpq"); // ("> text field with my border");
   	    	textfield.setBorder(BORDER_LINE);
+	    	textfield.addFocusListener(new FocusAdapterPersistentSelection(textfield));
 	    	panel.add(textfield);
 
 	    container.add(panel);
@@ -282,7 +293,16 @@ final int version = 1;
 	    	// This doesn't do anything visually when not using icons :(
 	    	//cbox.setVerticalAlignment(SwingConstants.CENTER);
 	    	
-	    	panel.add(decorate ? cb("") : new JCheckBox());
+	    	// TODO visually compare the checkbox implementation vs
+	    	// the label implementation and document the results.
+	    	// The issue, to me, is that you have little/no control of the
+	    	// position of the checkbox implementation (which does not
+	    	// center the label on the compoment; whereas, the label 
+	    	// lets you control its position via borders but you lose
+	    	// the mouse rollover/select ability (without further code).
+	    	cbox = decorate ? cb("Show this window on launch") : new JCheckBox();	    		    
+	    	panel.add(cbox);
+	    	
 	    	label = l("Show this window on launch");
 	    	if (decorate) {
 	    		label.setFont(CONTENT_FONT);
@@ -498,7 +518,7 @@ final int version = 1;
         		.get();
         if (decorate) {
         	cbox.setBackground(ROLLOVER_LIGHT);
-        	cbox.setFocusable(false);
+        	// cbox.setFocusable(false);
         	cbox.setFont(CONTENT_FONT);
         }
 

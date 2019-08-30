@@ -96,8 +96,10 @@ public class RolloverButton extends JButton {
 			
             g2.setColor(pressColor);            
 
-            if (this.cornerRadius > 0) g2.fillRoundRect(0, 0, r.width, r.height, 20, 20);
-            else g2.fillRect(0, 0, r.width, r.height );
+            if (this.cornerRadius > 0) 
+            	g2.fillRoundRect(0, 0, r.width, r.height, 20, 20);
+            else 
+            	g2.fillRect(0, 0, r.width, r.height );
             
 		} else if (model.isRollover()) {
 			final Rectangle r = this.getBounds(); 
@@ -106,8 +108,10 @@ public class RolloverButton extends JButton {
          // I do not remember why I started with the following...?
          // g2.fillRect(1, 1, r.width-2, r.height-2 );
 
-            if (this.cornerRadius > 0) g2.fillRoundRect(0, 0, r.width, r.height, 20, 20);
-            else g2.fillRect(0, 0, r.width, r.height );
+            if (this.cornerRadius > 0) 
+            	g2.fillRoundRect(0, 0, r.width, r.height, 20, 20);
+            else 
+            	g2.fillRect(0, 0, r.width, r.height );
             
 		}
         g2.dispose();			
