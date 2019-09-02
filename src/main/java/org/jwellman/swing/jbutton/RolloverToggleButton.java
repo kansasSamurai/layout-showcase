@@ -13,16 +13,15 @@ import javax.imageio.ImageIO;
 import javax.swing.ButtonModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 
 /**
- * An extension of JButton that very closely emulates an HTML "link button"
  * 
  * @author rwellman
  *
  */
-public class RolloverButton extends JButton {
+public class RolloverToggleButton extends JToggleButton {
 
 	private static final long serialVersionUID = 1L;
 
@@ -34,9 +33,11 @@ public class RolloverButton extends JButton {
 	
 	private Color pressColor = new Color(0x6D6D6D); // 0x5200B8
 	
+	private Color selectedColor = new Color(0x6D6D6D);
+	
 	private int cornerRadius = 0;
 	
-	public RolloverButton(String label, int radius) {
+	public RolloverToggleButton(String label, int radius) {
 		super(label);
 		
 		this.cornerRadius = radius;
@@ -47,7 +48,7 @@ public class RolloverButton extends JButton {
 		this.setCursor(HAND);		
 	}
 	
-	public RolloverButton(String label) {
+	public RolloverToggleButton(String label) {
 		this(label, 0);
 	}
 
@@ -91,27 +92,25 @@ public class RolloverButton extends JButton {
 		g2.setRenderingHints(HINTS);
 
 		final Rectangle r = this.getBounds(); 
-		
+
+		boolean paintme = false;
 		final ButtonModel model = this.getModel();		
 		if (model.isPressed()) {			
 			// System.out.print(".ps");
-            g2.setColor(pressColor);                        
-            if (this.cornerRadius > 0) 
-            	g2.fillRoundRect(0, 0, r.width, r.height, cornerRadius, cornerRadius);
-            else 
-            	g2.fillRect(0, 0, r.width, r.height );
+            g2.setColor(pressColor); paintme = true;
 		} else if (model.isRollover()) {
 			//System.out.print(".ro");
-            g2.setColor(rollColor);            
+            g2.setColor(rollColor); paintme = true;
+		} else if (model.isSelected()) {
+			//System.out.print(".xx");			
+            g2.setColor(selectedColor); paintme = true;
+		}
+		if (paintme) {
             if (this.cornerRadius > 0) 
             	g2.fillRoundRect(0, 0, r.width, r.height, cornerRadius, cornerRadius);
             else 
             	g2.fillRect(0, 0, r.width, r.height );
-		} else {
-			//System.out.print(".xx");			
 		}
-        // I do not remember why I started with the following...?
-        // g2.fillRect(1, 1, r.width-2, r.height-2 );
 
 		g2.dispose();			
 		
@@ -132,6 +131,14 @@ public class RolloverButton extends JButton {
 
 	public void setPressColor(Color pressColor) {
 		this.pressColor = pressColor;
+	}
+
+	public Color getSelectedColor() {
+		return selectedColor;
+	}
+
+	public void setSelectedColor(Color selectedColor) {
+		this.selectedColor = selectedColor;
 	}
 
 	public int getCornerRadius() {

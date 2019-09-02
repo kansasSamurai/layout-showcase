@@ -338,7 +338,7 @@ public class DashboardLayout extends ToolbarLayout implements ActionListener {
 				
 				RolloverButton rb = (RolloverButton)button;
 				rb.setRollColor(new Color(0xFFCC80));
-				rb.setCornerRadius(0);
+				rb.setCornerRadius(0); // 3
 			}
 			
 			return button;		

@@ -113,7 +113,7 @@ public Foundation init() {
 	 		            // Some LnF/Themes use properties (JTattoo, ...)
 			            Properties props = new Properties();
 	
-	          			final int version = LAF_DARCULA; // LAF_WEB; //LAF_MATCHES_SETTING;
+	          			final int version = LAF_SYSTEM; // LAF_WEB; //LAF_MATCHES_SETTING;
 	                    switch (version) {
 	                        case 1:
 	                            // http://robertour.com/2016/04/25/quickly-improving-java-metal-look-feel/

@@ -7,6 +7,7 @@ import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.border.Border;
 
 @SuppressWarnings("serial")
@@ -29,11 +30,18 @@ public class SimpleBorderLayout extends ExampleAdapter {
     public SimpleBorderLayout() {
 		this.setLayout(new BorderLayout());		
 		
-		this.add(this.createCenterComponent(), BorderLayout.CENTER);		
-		this.add(this.createEasternComponent(), BorderLayout.EAST);
-		this.add(this.createWesternComponent(), BorderLayout.WEST);
-		this.add(this.createNorthComponent(), BorderLayout.NORTH);
-		this.add(this.createSouthComponent(), BorderLayout.SOUTH);
+		Component c;
+		
+		if ((c = this.createCenterComponent()) != null)
+			this.add(c, BorderLayout.CENTER);		
+		if ((c = this.createEasternComponent()) != null)
+			this.add(c, BorderLayout.EAST);
+		if ((c = this.createWesternComponent()) != null)
+			this.add(c, BorderLayout.WEST);
+		if ((c = this.createNorthComponent()) != null)
+			this.add(c, BorderLayout.NORTH);
+		if ((c = this.createSouthComponent()) != null)
+			this.add(c, BorderLayout.SOUTH);
 		
 		this.name = "Simple Border Layout";
 		this.textDescription = "Long description goes here...";

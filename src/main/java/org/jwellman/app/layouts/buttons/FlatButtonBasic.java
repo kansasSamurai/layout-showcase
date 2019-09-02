@@ -50,26 +50,20 @@ public class FlatButtonBasic extends AFlatButton {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g.create();
-		
 		final ButtonModel model = this.getModel();
-		
-		if (model.isPressed()) {
-			final Rectangle r = this.getBounds(); 
-			
-            g2.setColor(pressColor);            
-            g2.fillRect(0, 0, r.width, r.height );
-            g2.dispose();
-		} else if (model.isRollover()) {
-			final Rectangle r = this.getBounds(); 
-			System.out.print(".ro");
-			
-            g2.setColor(rollColor);            
-            g2.fillRect(0, 0, r.width, r.height );
-//          g2.fillRect(1, 1, r.width-2, r.height-2 );
-            g2.dispose();			
-		}
-		
+
+		Graphics2D g2 = (Graphics2D) g.create(); {
+			if (model.isPressed()) {
+	            g2.setColor(pressColor);            
+			} else if (model.isRollover()) {
+	            g2.setColor(rollColor);            
+			}			
+
+			final Rectangle r = this.getBounds();			
+	        g2.fillRect(0, 0, r.width, r.height );
+ 
+		} g2.dispose(); 
+
 		super.paintComponent(g);
 	}
 	
