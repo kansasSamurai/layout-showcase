@@ -25,8 +25,7 @@ public class ExampleAdapter extends JPanel implements Example, SwingConstants {
 	
 	protected static final Color TRANSPARENT = new Color(0,0,0,0);
 
-	// TODO need a default icon/imagePath
-	private String imagePath = "";
+	private String imagePath = "/images/examples/swing.gif";
 	
 	public ExampleAdapter() {
 		super();
@@ -45,6 +44,7 @@ public class ExampleAdapter extends JPanel implements Example, SwingConstants {
 	    	else 
 		        image = new ImageIcon(getClass().getResource(this.getImagePath()));	
 	    }
+	    System.out.println("iconheight: " + image.getIconHeight());
         return image;
 	}
 

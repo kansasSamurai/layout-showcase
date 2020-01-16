@@ -8,7 +8,10 @@ import javax.swing.JPanel;
  * A JPanel extension that simply prevents most* parent layout managers
  * from manipulating its size by returning its preferred size when
  * its maximum size is requested.
- * 
+ * [*] I think I meant this for panels within a boxlayout (vertical),
+ *     but I'm having a hard time proving it; probably ResponsiveDashboard
+ *     before I completely filled the "center" content area.
+ *     
  * @author Rick
  *
  */

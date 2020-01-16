@@ -8,6 +8,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -27,16 +28,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 
 import org.jwellman.app.layouts.buttons.AFlatButton;
 import org.jwellman.foundation.swing.XCheckBox;
 import org.jwellman.swing.event.FocusAdapterPersistentSelection;
 import org.jwellman.swing.jbutton.RolloverButton;
+import org.jwellman.swing.jbutton.RolloverToggleButton;
 import org.jwellman.swing.jlabel.ActionLabel;
 import org.jwellman.swing.jpanel.RestrictedHeightPanel;
 import org.jwellman.swing.jtextfield.RoundField;
 import org.jwellman.swing.jtextfield.RoundedTextField;
+import org.jwellman.swing.layout.ResponsiveLayout;
 import org.jwellman.swing.text.FancyCaret;
 
 /**
@@ -76,9 +80,14 @@ public class ResponsiveDashboard extends ToolbarLayout implements ActionListener
 	
 	private static final Cursor HAND = new Cursor(Cursor.HAND_CURSOR);
 
+	// ========== Palette ==========
 	private static final Color ROLLOVER = new Color(0xefefef);
 
 	private static final Color ROLLOVER_LIGHT = new Color(0xf8f8f8);
+	
+	private static final Color DARK_TEAL = new Color(0x016565);
+	
+	private static final Color TEAL = new Color(0x078e8e);
 	
 	// ========== SOLARIZED ==========
 	private static final Color ORANGE = new Color(0xF57C00); // cb4b16
@@ -91,6 +100,8 @@ public class ResponsiveDashboard extends ToolbarLayout implements ActionListener
 
 	// ========== BORDERS ==========
 	private static final Border BUTTON_BORDER = BorderFactory.createEmptyBorder(10,10,10,10);
+
+	private static final Border CBUTTON_BORDER = BorderFactory.createEmptyBorder(1,1,1,1); //(2,2,2,2);
 
 	private static final Border TABPANEL_BORDER = BorderFactory.createMatteBorder(0, 0, 1, 0, ROLLOVER);
 
@@ -110,6 +121,13 @@ public class ResponsiveDashboard extends ToolbarLayout implements ActionListener
 
 	private static final Font TAB_FONT = new Font("Calibri", Font.PLAIN, 18);
 
+	private static final Font VERDANA = new Font("Verdana", Font.PLAIN, 10);
+	
+	private static final Font VERDANA2 = new Font("Verdana", Font.PLAIN, 14);
+	
+	private static final Font VERDANA3 = new Font("Verdana", Font.BOLD, 18);
+	
+	// ========== ICONS ==========
 	private Icon iconBlackBook;
 	
 	private Icon iconWhiteBook;
@@ -156,12 +174,15 @@ final int version = 1;
 
 	    panel = p();
 	    switch (version) {
-	    case 1:
+	    case 1: // This works best so far
 	    	panel.setLayout(new FlowLayout(FlowLayout.LEFT)); //(new BoxLayout(panel, BoxLayout.PAGE_AXIS)); // (new FlowLayout(FlowLayout.LEFT));
 	    	// panel.setBorder(BorderFactory.createTitledBorder("FlowLayout"));
 	    	break;
 	    case 2:
 	    	panel.setLayout (new BoxLayout(panel, BoxLayout.PAGE_AXIS)); // (new FlowLayout(FlowLayout.LEFT));
+	    	break;
+	    case 3:
+	    	panel.setLayout(new ResponsiveLayout());
 	    	break;
 	    }
 		
@@ -196,6 +217,26 @@ final int version = 1;
 				p2 = p();
 				p2.setLayout (new BorderLayout());
 				p2.add (scroller, BorderLayout.CENTER);
+				container.add(p2); // (p2); // p2 if using flowlayout
+				break;
+			case 3:
+				scroller = new JScrollPane();
+				scroller.setBorder(BorderFactory.createLineBorder(Color.ORANGE));
+				scroller.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_AS_NEEDED);
+				scroller.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				
+				p2 = p();
+				p2.setLayout (new BorderLayout());
+				p2.add (scroller, BorderLayout.CENTER);
+				container.add(p2); // (p2); // p2 if using flowlayout
+				break;
+			case 98:
+				container.add(panel);
+				break;
+			case 99:
+ 				p2 = new JPanel(); // p();
+				p2.setLayout (new BorderLayout());
+				p2.add (panel, BorderLayout.CENTER); // BorderLayout.CENTER);
 				container.add(p2); // (p2); // p2 if using flowlayout
 				break;
 			}
@@ -352,7 +393,129 @@ final int version = 1;
 	}
 	
 	protected Component createEasternComponent() {
-		return new JPanel();
+		JPanel container = new JPanel();
+		container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));		
+		
+		// Reusable object refs
+		JPanel panel, panel2;
+		JLabel label;
+		JButton button;
+		//RolloverToggleButton rbutton;
+		FlowLayout flow = new FlowLayout(FlowLayout.CENTER, 0, 0);
+		Border border = BorderFactory.createLineBorder(Color.white);
+		
+		panel = p(false);
+		panel.setLayout(flow);
+		panel.setBackground(DARK_TEAL);		
+			label = l("September 2019");
+			label.setForeground(Color.WHITE);
+			label.setFont(VERDANA);
+			panel.add(label);
+		container.add(panel);
+		
+		panel = p(false);
+		panel.setLayout(flow);
+		panel.setBackground(TEAL);
+			label = l("Monday");
+			label.setForeground(Color.WHITE);
+			label.setFont(VERDANA2);
+			panel.add(label);
+		container.add(panel);
+				
+		panel = p(false);
+		panel.setLayout(flow);
+		panel.setBackground(TEAL);
+			label = l("4th");
+			label.setForeground(Color.WHITE);
+			label.setFont(VERDANA3);
+			panel.add(label);
+		container.add(panel);
+				
+		panel = p(false);
+		panel.setBackground(TEAL);
+		panel.setLayout(new BorderLayout());
+			label = l("[]");
+			label.setForeground(Color.WHITE);
+			label.setFont(VERDANA2);
+			panel.add(label, BorderLayout.WEST);
+
+			label = l("[]");
+			label.setForeground(Color.WHITE);
+			label.setFont(VERDANA2);
+			panel.add(label, BorderLayout.EAST);
+		
+			panel2 = new JPanel(new GridBagLayout());
+			panel2.setOpaque(false);
+				label = l("12:00 PM");
+				label.setForeground(Color.LIGHT_GRAY);
+				label.setFont(VERDANA);
+				panel2.add(label);
+			panel.add(panel2, BorderLayout.CENTER);
+		
+		container.add(panel);
+				
+		panel = p(false);
+		panel.setBackground(Color.WHITE);
+		panel.setLayout(new BorderLayout());
+			label = l("<");
+			// label.setForeground(Color.WHITE);
+			label.setFont(VERDANA2);
+			panel.add(label, BorderLayout.WEST);
+
+			label = l(">");
+			//label.setForeground(Color.WHITE);
+			label.setFont(VERDANA2);
+			panel.add(label, BorderLayout.EAST);
+		
+			panel2 = new JPanel(new GridBagLayout());
+			panel2.setOpaque(false);
+				label = l("September 2019");
+				label.setFont(VERDANA);
+				panel2.add(label);
+			panel.add(panel2, BorderLayout.CENTER);
+		
+		container.add(panel);
+		
+		panel = p(false);
+		panel.setBackground(Color.WHITE);
+		panel.setLayout(new GridLayout(1,7));
+			button = b2("Sun"); button.setEnabled(false); panel.add(button);
+			button = b2("Mon"); button.setEnabled(false); panel.add(button);
+			button = b2("Tue"); button.setEnabled(false); panel.add(button);
+			button = b2("Wed"); button.setEnabled(false); panel.add(button);
+			button = b2("Thu"); button.setEnabled(false); panel.add(button);
+			button = b2("Fri"); button.setEnabled(false); panel.add(button);
+			button = b2("Sat"); button.setEnabled(false); panel.add(button);
+		
+		container.add(panel);
+		
+		for (int row = 0; row < 5; row++) {
+			panel = p(false);
+			panel.setBackground(Color.WHITE);			
+			panel.setLayout(new GridLayout(1,7));
+			for (int col = 1; col < 8; col++) {
+				final int day = row*7+col;
+				final String s = (day < 32) ? ("" + day) : "";
+				button = b2(s); panel.add(button);
+				if (day > 31) button.setEnabled(false);
+			}
+			
+			container.add(panel);			
+		}
+		
+		return container;
+	}
+
+	private JButton b2(String string) {
+		Color d = (Color) UIManager.getDefaults().get("Button.disabledText");// .put("Button.disabledText")
+		RolloverButton b = new RolloverButton(string);
+		b.setFont(VERDANA);
+		b.setHorizontalAlignment(CENTER);
+		b.setBorder(CBUTTON_BORDER);
+		b.setRollColor(d);
+//		Insets inset = b.getBorder().getBorderInsets(b);
+//		System.out.println(inset.toString());
+		return b;
 	}
 
 	protected JLabel l(String text) {

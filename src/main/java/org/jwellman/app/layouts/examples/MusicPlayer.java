@@ -147,14 +147,13 @@ public class MusicPlayer extends ToolbarLayout {
 		// p.setBackground(MEDIUM);
 		
 		container.add(new JLabel("Library"));
-		container.add(new JLabel("[] Recently Added"));
-		container.add(new JLabel("[] Artists"));
-		container.add(new JLabel("[] Albums"));
-		container.add(new JLabel("[] Songs"));
-		container.add(new JLabel("[] Genre"));
-		container.add(new JLabel("[] Downloaded"));
-
+		container.add(new JCheckBox("Recently Added"));
+		container.add(new JCheckBox("Artists"));
+		container.add(new JCheckBox("Albums"));
+		container.add(new JCheckBox("Songs"));
+		container.add(new JCheckBox("Genre"));
 		container.add(new JCheckBox("Downloaded"));
+
 		JToggleButton b = new JToggleButton();
 		//b.setIcon(defaultIcon);
 		
