@@ -17,10 +17,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.sun.image.codec.jpeg.ImageFormatException;
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageDecoder;
+import javax.imageio.ImageIO;
 
+@SuppressWarnings("serial")
 public class ShowOff extends Component {
 	
   public static void main(String[] args) {
@@ -59,12 +58,14 @@ public class ShowOff extends Component {
   private int mSplit;
   private TextLayout mLayout;
   
-  public ShowOff(String filename, String message, int split)
-      throws IOException, ImageFormatException {
+  public ShowOff(String filename, String message, int split) throws IOException {
+	  
     // Get the specified image.
     InputStream in = getClass().getResourceAsStream(filename);
-    JPEGImageDecoder decoder = JPEGCodec.createJPEGDecoder(in);
-    mImage = decoder.decodeAsBufferedImage();
+    	// following is old/deprecated; replace with ImageIO
+	    //JPEGImageDecoder decoder = JPEGCodec.createJPEGDecoder(in);
+	    //mImage = decoder.decodeAsBufferedImage();
+    mImage = ImageIO.read(in);
     in.close();
     // Create a font.
     mFont = new Font("Serif", Font.PLAIN, 116);
