@@ -44,7 +44,7 @@ public class ExampleAdapter extends JPanel implements Example, SwingConstants {
 	    	else 
 		        image = new ImageIcon(getClass().getResource(this.getImagePath()));	
 	    }
-	    System.out.println("iconheight: " + image.getIconHeight());
+	    // System.out.println("iconheight: " + image.getIconHeight());
         return image;
 	}
 

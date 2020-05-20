@@ -21,6 +21,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
@@ -28,6 +29,7 @@ import org.jwellman.app.layouts.buttons.AFlatButton;
 import org.jwellman.foundation.swing.XCheckBox;
 import org.jwellman.swing.jbutton.RolloverButton;
 import org.jwellman.swing.jlabel.ActionLabel;
+import org.jwellman.swing.jpanel.OverflowX;
 
 /**
  * An example of a dashboard layout.
@@ -116,8 +118,8 @@ public class ResponsiveDashboard2 extends ToolbarLayout implements ActionListene
 	protected Component createCenterComponent() {
 		final JPanel outer = new JPanel(new BorderLayout());
 		
-		final JPanel container = new JPanel();
-		container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));		
+		final JPanel container = new OverflowX(); // new JPanel();
+		//container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));		
 		
 		JPanel panel = null; // reusable panel reference;
 		JLabel label = null; // reusable label reference;
@@ -230,8 +232,12 @@ public class ResponsiveDashboard2 extends ToolbarLayout implements ActionListene
 			}
 			panel.add(button);
 		outer.add(panel, BorderLayout.SOUTH); // container.add(panel);
-    	
-		outer.add(container, BorderLayout.CENTER);
+
+		JScrollPane scroll = new JScrollPane(container);
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		// scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.setBorder(null);
+		outer.add(scroll, BorderLayout.CENTER);
 		return outer; // container;
 	}
 
