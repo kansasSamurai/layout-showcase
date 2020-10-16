@@ -37,18 +37,19 @@
 			<scope>test</scope>
 		</dependency>
 		
-       <!-- Not available in maven central; see local repo -->
-       <dependency>
-           <groupId>com.nilo.plaf</groupId>
-           <artifactId>nimrod</artifactId>
-           <version>1.2d</version>
-       </dependency>
+        <!-- Not available in maven central; see local repo -->
+        <dependency>
+            <groupId>com.nilo.plaf</groupId>
+            <artifactId>nimrod</artifactId>
+            <version>1.2d</version>
+        </dependency>
 
-       <dependency>
-           <groupId>com.jtattoo</groupId>
-           <artifactId>JTattoo</artifactId>
-           <version>1.6.11</version>
-       </dependency>
+		<!-- https://mvnrepository.com/artifact/com.jtattoo/JTattoo -->
+		<dependency>
+		    <groupId>com.jtattoo</groupId>
+		    <artifactId>JTattoo</artifactId>
+		    <version>1.6.11</version>
+		</dependency>
 
 		<dependency>
 		    <groupId>org.jwellman</groupId>
@@ -67,4 +68,16 @@
 		</plugins>
 	</build>
 
+    <repositories>
+
+      <repository>
+          <id>this_project.local</id>
+          <name>this_project</name>
+          <url>file:\\\${project.basedir}\repo\</url>
+          <releases> <enabled>true</enabled> </releases>
+          <snapshots> <enabled>true</enabled> </snapshots>
+      </repository>
+
+    </repositories>	
+    
 </project>

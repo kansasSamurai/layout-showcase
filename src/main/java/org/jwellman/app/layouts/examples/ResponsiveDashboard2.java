@@ -112,7 +112,7 @@ public class ResponsiveDashboard2 extends ToolbarLayout implements ActionListene
 	public ResponsiveDashboard2() {
 		super();
 		
-		this.name = "Responsive Deux";
+		this.name = "Responsive Part Deux";
 	}
 
 	protected Component createCenterComponent() {
@@ -457,9 +457,17 @@ public class ResponsiveDashboard2 extends ToolbarLayout implements ActionListene
 		return p;		
 	}
 	
+	private boolean decorated = false;
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JOptionPane.showMessageDialog(this, "Your action works");
+		if (decorated) {
+			JOptionPane.showMessageDialog(this, "Your action works");			
+		} else {
+			decorated = true;
+			this.decoratePanels(this);
+			this.repaint();			
+		}
 	}
 	
 }

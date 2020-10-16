@@ -15,6 +15,7 @@ import org.jwellman.app.layouts.examples.BasicWithFlowLayout;
 import org.jwellman.app.layouts.examples.BasicWithJLabelDemo;
 import org.jwellman.app.layouts.examples.BasicWithPanels;
 import org.jwellman.app.layouts.examples.DashboardLayout;
+import org.jwellman.app.layouts.examples.FormsPart01;
 import org.jwellman.app.layouts.examples.GolfScore;
 import org.jwellman.app.layouts.examples.JEditorPane;
 import org.jwellman.app.layouts.examples.MusicPlayer;
@@ -81,6 +82,7 @@ public class LayoutBrowser extends JPanel implements ListSelectionListener {
 	    ,new ToolbarLayout()
 	    ,new TransparentButtons()
 	    ,new MusicPlayer()
+	    ,new FormsPart01()
 	    ,new DashboardLayout()
 	    ,new ResponsiveDashboard()
 	    ,new ResponsiveDashboard2()

@@ -17,10 +17,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
 import org.jwellman.app.layouts.buttons.AFlatButton;
 import org.jwellman.app.layouts.buttons.FlatButtonBasic;
+import org.jwellman.swing.jpanel.OverflowX;
 
 public class ToolbarLayout extends SimpleBorderLayout implements ActionListener {
 
@@ -157,20 +159,27 @@ public class ToolbarLayout extends SimpleBorderLayout implements ActionListener 
 		for (Component child : parent.getComponents()) {
 			final JComponent jcomp = (JComponent) child;
 			
+			String suffix = "";
+			if (parenthasborderlayout) {
+				if (child.equals(north))  suffix = " (N)";
+				if (child.equals(south))  suffix = " (S)";
+				if (child.equals(east ))  suffix = " (E)";
+				if (child.equals(west ))  suffix = " (W)";
+				if (child.equals(center)) suffix = " (C)";
+			}
+
 			if (child instanceof JPanel) {
 				final LayoutManager layout = ((JPanel) child).getLayout();
 
-				String suffix = "";
-				if (parenthasborderlayout) {
-					if (child.equals(north))  suffix = " (N)";
-					if (child.equals(south))  suffix = " (S)";
-					if (child.equals(east ))  suffix = " (E)";
-					if (child.equals(west ))  suffix = " (W)";
-					if (child.equals(center)) suffix = " (C)";
-				}
 				final String title = layout.getClass().getSimpleName() + suffix;
 				this.addBorder(jcomp, BorderFactory.createTitledBorder(title));
 				this.decoratePanels(jcomp);
+			} else if (child instanceof JScrollPane) {
+				final JScrollPane sp = (JScrollPane)child;
+				final String title = "JScrollPane" + suffix;
+				this.addBorder(jcomp, BorderFactory.createTitledBorder(title));
+				
+				this.decoratePanels( (JComponent) sp.getViewport().getComponent(0) );
 			} else {
 				
 				// Some buttons have the "border painted" turned off by default,
