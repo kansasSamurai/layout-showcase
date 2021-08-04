@@ -20,8 +20,6 @@ import org.jwellman.utility.Limit;
 @SuppressWarnings("serial")
 public class TransparentButtons extends ExampleAdapter implements ActionListener, KeyListener {
 
-	private static final Color DARK_GRAY = new Color(0x77657b83, true);
-
 	private JPanel container;
 	private int x = 377;
 	private int y = 234;
@@ -29,11 +27,15 @@ public class TransparentButtons extends ExampleAdapter implements ActionListener
 	private int SIZE_H = 15;
 	private static final int ROWS = 6;
 	private static final int COLS = 7;
+	private static final int CALENDAR = 1;
 	
 	private ArrayList<String> backgrounds;
 
+	private static final Color DARK_GRAY = new Color(0x77657b83, true);
+
 	public TransparentButtons() {
 		super();
+	
 		this.setLayout(new GridBagLayout()); // (new BorderLayout());
 		// this.setBorder(BorderFactory.createLineBorder(Color.yellow, 1));
 		this.setFocusable(true); // required for key listener
@@ -52,10 +54,10 @@ public class TransparentButtons extends ExampleAdapter implements ActionListener
 	}
 	
 	private void createContents() {
+        final Dimension d = new Dimension(640,480);
 
-		JPanel calendar = new ImagePanel("/images/calendar/" + this.backgrounds.get(1));
+		JPanel calendar = new ImagePanel("/images/calendar/" + this.backgrounds.get(CALENDAR));
 		calendar.setLayout(null);
-		final Dimension d = new Dimension(640,480);
 		calendar.setPreferredSize(d);
 		calendar.setMinimumSize(d);
 		calendar.setMaximumSize(d);
@@ -67,9 +69,19 @@ public class TransparentButtons extends ExampleAdapter implements ActionListener
 			for (int r=0; r < ROWS; r++) {
 				RolloverToggleButton b = new RolloverToggleButton("");
 				//b.setForeground(DARK_GRAY);
-				b.setRollColor(DARK_GRAY);
-				b.setPressColor(Color.LIGHT_GRAY);
-				b.setSelectedColor(DARK_GRAY);
+				
+				switch (CALENDAR) {
+				case 0:
+//	                b.setRollColor(DARK_GRAY);
+//	                b.setPressColor(Color.LIGHT_GRAY);
+	                b.setSelectedColor(new Color(0x33FFFFB3, true));
+				    break;
+				case 1:
+	                b.setRollColor(DARK_GRAY);
+	                b.setPressColor(Color.LIGHT_GRAY);
+	                b.setSelectedColor(DARK_GRAY);
+				    break;
+				}
 					boolean border = false;
 					if (border) {  // only for testing
 						b.setBorderPainted(true);

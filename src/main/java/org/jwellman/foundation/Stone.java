@@ -69,11 +69,11 @@ private static final int LAF_SYSTEM = 4;
 private static final int LAF_NIMROD = 5;
 private static final int LAF_JTATTOO = 6;
 private static final int LAF_DARCULA = 7;
+private static final int LAF_CHOSEN = LAF_WEB;
 
-
-public Foundation init() {
-    return init(null);
-}
+    public Foundation init() {
+        return init(null);
+    }
 
 	public Foundation init(uContext c) {
 	
@@ -93,11 +93,14 @@ public Foundation init() {
 	        // http://stackoverflow.com/questions/179955/how-do-you-enable-anti-aliasing-in-arbitrary-java-apps
 	        // Try System.setProperty("awt.useSystemAAFontSettings", "lcd"); and you should get ClearType
 			// https://www.javalobby.org/java/forums/t98492.html
-			//      System.setProperty("awt.useSystemAAFontSettings","on");
+			//      System.setProperty("awt.useSystemAAFontSettings","lcd");
 			//      System.setProperty("swing.aatext", "true");
 	
 	        // Make sure our window decorations come from the look and feel.
-	        JFrame.setDefaultLookAndFeelDecorated(false); // I changed my mind... I think the OS frame makes more sense
+	        JFrame.setDefaultLookAndFeelDecorated(true); 
+	        // I changed my mind... I think the OS frame makes more sense
+	        // I've changed my mind several times... if you want the OS frame... 
+	        // set the corresponding LAF.... there... done.
 	
 	        // Conditionally apply context settings...
 	        context = (c != null) ? c : uContext.createContext();
@@ -113,7 +116,7 @@ public Foundation init() {
 	 		            // Some LnF/Themes use properties (JTattoo, ...)
 			            Properties props = new Properties();
 	
-	          			final int version = LAF_JTATTOO; // LAF_SYSTEM; // LAF_WEB; // LAF_MATCHES_SETTING;
+	          			final int version = LAF_CHOSEN; // LAF_SYSTEM; // LAF_WEB; // LAF_MATCHES_SETTING;
 	                    switch (version) {
 	                        case 1:
 	                            // http://robertour.com/2016/04/25/quickly-improving-java-metal-look-feel/
@@ -172,7 +175,7 @@ public Foundation init() {
 	//                            LookAndFeel laf = new NapkinLookAndFeel();
 	//                            UIManager.setLookAndFeel(laf);
 	                            break;
-	                        case 4:
+	                        case LAF_SYSTEM:
 	                            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 	                            break;
 	                        case LAF_NIMROD:
@@ -322,21 +325,21 @@ public Foundation init() {
 	
 	}
 
-/**
- * http://robertour.com/2016/04/25/quickly-improving-java-metal-look-feel/
- * 
- * @param f
- */
-private static void setUIFont (javax.swing.plaf.FontUIResource f){
-    final Enumeration<?> keys = UIManager.getDefaults().keys();
-    while (keys.hasMoreElements()) {
-        final Object key = keys.nextElement();
-        final Object value = UIManager.get (key);
-        if (value != null 
-        		&& value instanceof javax.swing.plaf.FontUIResource) 
-        	UIManager.put (key, f);
+    /**
+     * http://robertour.com/2016/04/25/quickly-improving-java-metal-look-feel/
+     * 
+     * @param f
+     */
+    private static void setUIFont (javax.swing.plaf.FontUIResource f){
+        final Enumeration<?> keys = UIManager.getDefaults().keys();
+        while (keys.hasMoreElements()) {
+            final Object key = keys.nextElement();
+            final Object value = UIManager.get (key);
+            if (value != null 
+            		&& value instanceof javax.swing.plaf.FontUIResource) 
+            	UIManager.put (key, f);
+        }
     }
-}
 
 public IWindow useDesktop(JPanel ui) {
 
@@ -379,6 +382,16 @@ public IWindow useWindow(JPanel ui) {
     // Create the JFrame
     frame = new XFrame("Your UI in Foundation Window");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    // setUndecorated(true) would be invoked here if the user has not called
+    // JFrame.setDefaultLookAndFeelDecorated(true); ... see the next comment.
+    // setUndecorated(true); 
+    
+    // To use a background color with transparency, you *MUST* either:
+    // 1. preceed this call with a call to: setUndecorated(true)  -or-
+    // 2. preceed this call with a call to: JFrame.setDefaultLookAndFeelDecorated(true)
+    frame.setBackground(new Color(0,0,0,128 + (16*5)));
+    
     // frame.setSize(450, 250);
     if (panel != null) frame.add(panel);
 
@@ -401,6 +414,8 @@ public void showGUI() {
         javax.swing.SwingUtilities.invokeLater(
             new Runnable() { @Override public void run() {
 
+                // tried setting background with alpha here... did not work.
+                
                 // Display the window.
                 if (!isDesktop) frame.pack(); // [A]
                 frame.setSize(context.getDimension());
