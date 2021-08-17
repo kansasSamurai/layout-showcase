@@ -10,6 +10,7 @@ import java.util.Properties;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.LookAndFeel;
 //import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -30,6 +31,10 @@ import com.jtattoo.plaf.fast.FastLookAndFeel;
 import com.jtattoo.plaf.smart.SmartLookAndFeel;
 import com.nilo.plaf.nimrod.NimRODLookAndFeel;
 import com.nilo.plaf.nimrod.NimRODTheme;
+
+import net.sourceforge.napkinlaf.NapkinLookAndFeel;
+import net.sourceforge.napkinlaf.NapkinTheme;
+import net.sourceforge.napkinlaf.sketch.sketchers.JotSketcher;
 
 /**
  * The most basic of Swing initialization requirements.
@@ -64,7 +69,7 @@ protected XInternalFrame internalFrame;
 // Look and Feel (LAF) identifiers
 private static final int LAF_MATCHES_SETTING = 1;
 private static final int LAF_WEB = 2;
-private static final int LAF_TBD = 3;
+private static final int LAF_NAPKIN = 3;
 private static final int LAF_SYSTEM = 4;
 private static final int LAF_NIMROD = 5;
 private static final int LAF_JTATTOO = 6;
@@ -113,9 +118,9 @@ public Foundation init() {
 	 		            // Some LnF/Themes use properties (JTattoo, ...)
 			            Properties props = new Properties();
 	
-	          			final int version = LAF_JTATTOO; // LAF_SYSTEM; // LAF_WEB; // LAF_MATCHES_SETTING;
+	          			final int version = LAF_MATCHES_SETTING; // LAF_NAPKIN; // LAF_SYSTEM; // LAF_WEB; // LAF_MATCHES_SETTING;
 	                    switch (version) {
-	                        case 1:
+	                        case LAF_MATCHES_SETTING:
 	                            // http://robertour.com/2016/04/25/quickly-improving-java-metal-look-feel/
 	                            // https://thebadprogrammer.com/swing-uimanager-keys/
 	                            if ("Metal".equals(name)) { // Metal, Nimbus, CDE/Motif, Windows , Windows Classic
@@ -165,13 +170,40 @@ public Foundation init() {
 	                        case 2:
 	                            UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel"); // works but need to upgrade to 1.29 from 1.27
 	                            break;
-	                        case 3:
-	//                            String[] themeNames = NapkinTheme.Manager.themeNames();
-	//                            String themeToUse = "blueprint"; // napkin | blueprint
-	//                            NapkinTheme.Manager.setCurrentTheme(themeToUse);
-	//                            LookAndFeel laf = new NapkinLookAndFeel();
-	//                            UIManager.setLookAndFeel(laf);
+	                            
+	                        case LAF_NAPKIN:
+	                            // A user defined napkin theme; compatible with NapkinLAF 1.3-SNAPSHOT+
+	                            int scrawlSize = 14;
+	                            NapkinTheme def = new NapkinTheme(
+	                                    "papersack", "Paper Sack Theme", // Name/Description
+	                                    Color.BLACK, // PenColor : (for drawing lines)
+	                                    Color.RED, // CheckColor : Checkboxes, ProgressBar, and Default Button
+	                                    Color.RED, // new Color(0xf50000), // RadioColor :
+	                                    Color.RED, // HighlightColor : (Focus Indicator)
+	                                    new Color(0xff, 0xff, 0x00, 0x80), // RolloverColor : JButton, ...
+	                                    Color.RED, // SelectionColor : SelectedText, Active JFrame/InternalFrame, JMenu, JList, JToolbar
+	                                    new Font("Segoe Print", Font.PLAIN, scrawlSize), // Calibri / Segoe UI
+	                                    new Font("Segoe Print", Font.BOLD, scrawlSize), // Segoe UI
+	                                    new Font("Veteran Typewriter", Font.PLAIN, 24), // Another Typewriter, Tox Typewriter, Veteran Typewriter
+//	                                    NapkinTheme.Manager.tryToLoadFont("FeltTipRoman.ttf").deriveFont(Font.BOLD, 18),
+//	                                    scrawl.deriveFont(Font.PLAIN, scrawlSize), // TextFont :
+//	                                    scrawlBold.deriveFont(Font.BOLD, scrawlSize), // BoldTextFont :
+//	                                    fixed.deriveFont(Font.PLAIN, scrawlSize), // FixedFont :
+	                                    new JotSketcher(), 
+	                                    NapkinTheme.Manager.background("napkin.jpg"), // paper 
+	                                    NapkinTheme.Manager.background("erasure.png"), // erasure (mask)
+	                                    NapkinTheme.Manager.background("napkin-original.jpg", 80, 80, 50, 40), // popup paper
+	                                    new Color(0xff, 0xff, 0x00, 0x80)); // popup highlight color
+	                            NapkinTheme.Manager.addTheme(def);
+
+	                            String[] themeNames = NapkinTheme.Manager.themeNames();
+	                            String themeToUse = "papersack"; // napkin | blueprint
+	                            NapkinTheme.Manager.setCurrentTheme(themeToUse);
+	                            
+	                            LookAndFeel laf = new NapkinLookAndFeel();
+	                            UIManager.setLookAndFeel(laf);
 	                            break;
+	                            
 	                        case 4:
 	                            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 	                            break;
