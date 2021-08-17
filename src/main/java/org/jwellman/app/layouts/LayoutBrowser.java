@@ -11,6 +11,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.jwellman.app.layouts.examples.BasicJDialogDemo;
+import org.jwellman.app.layouts.examples.BasicJOptionPaneDemo;
 import org.jwellman.app.layouts.examples.BasicWithFlowLayout;
 import org.jwellman.app.layouts.examples.BasicWithJLabelDemo;
 import org.jwellman.app.layouts.examples.BasicWithPanels;
@@ -79,6 +81,8 @@ public class LayoutBrowser extends JPanel implements ListSelectionListener {
 	    ,new BasicWithPanels()
 	    ,new BasicWithFlowLayout()
 	    ,new BasicWithJLabelDemo()
+	    ,new BasicJDialogDemo()
+	    ,new BasicJOptionPaneDemo()
 	    ,new ToolbarLayout()
 	    ,new TransparentButtons()
 	    ,new MusicPlayer()

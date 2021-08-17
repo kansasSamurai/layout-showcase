@@ -43,7 +43,7 @@ public class FlatButtonBasic extends AFlatButton {
 	
 	private void decorate(String label) {		
 		if (this.getText().isEmpty())
-		this.setToolTipText(label); System.out.println(this.getText());
+			this.setToolTipText(label); System.out.println(this.getText());
         this.setIcon(new ImageIcon(this.getImage(label)));
         this.setPressedIcon(new ImageIcon(this.getSelectedImage(label)));
 	}
@@ -52,17 +52,14 @@ public class FlatButtonBasic extends AFlatButton {
 	public void paintComponent(Graphics g) {
 		final ButtonModel model = this.getModel();
 
-		Graphics2D g2 = (Graphics2D) g.create(); {
-			if (model.isPressed()) {
-	            g2.setColor(pressColor);            
-			} else if (model.isRollover()) {
-	            g2.setColor(rollColor);            
-			}			
-
-			final Rectangle r = this.getBounds();			
-	        g2.fillRect(0, 0, r.width, r.height );
- 
-		} g2.dispose(); 
+		final boolean fill = model.isPressed() || model.isRollover();
+		if (fill) {
+			Graphics2D g2 = (Graphics2D) g.create(); {
+				final Rectangle r = this.getBounds();			
+	            g2.setColor(model.isPressed() ? pressColor : rollColor);	            
+		        g2.fillRect(0, 0, r.width, r.height );				
+			} g2.dispose();
+		} 
 
 		super.paintComponent(g);
 	}
