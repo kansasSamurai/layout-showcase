@@ -146,15 +146,37 @@ public class ResponsiveDashboard2 extends ToolbarLayout implements ActionListene
 			panel.add(label);		
 		container.add(panel);
 		
-	    panel = p();
-		panel.setLayout(new GridLayout(1,0));
+		final int layoutVersion = 2;
+		switch (layoutVersion) {
+		case 1:
+			/* This was the original implementation; however, it did not
+			 * have the desired effect since all the "button panels" were
+			 * "constrained" to their parent JPanel.  so see version 2 below
+			 */
+		    panel = p();
+			panel.setLayout(new GridLayout(1,0));
+				button = b("Request", "Create a basic request<br><br>");
+				panel.add(button);
+				button = b("Collection", "Save your requests in a collection for reuse and sharing");
+				panel.add(button);
+				button = b("Environment", "Save values you frequently use in an environment");
+				panel.add(button);		
+			container.add(panel);
+			break;
+			
+		case 2:
+			/* To allow the "overflow" effect of the parent container, put the
+			 * "button panels" directly into the parent container.
+			 */
 			button = b("Request", "Create a basic request<br><br>");
-			panel.add(button);
+			container.add(button);
 			button = b("Collection", "Save your requests in a collection for reuse and sharing");
-			panel.add(button);
+			container.add(button);
 			button = b("Environment", "Save values you frequently use in an environment");
-			panel.add(button);		
-		container.add(panel);
+			container.add(button);
+			break;
+			
+		}
 		
 	    panel = p();
 	    	panel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -162,15 +184,33 @@ public class ResponsiveDashboard2 extends ToolbarLayout implements ActionListene
 			panel.add(label);		
 		container.add(panel);
 	
-	    panel = p();
-		panel.setLayout(new GridLayout(1,0));
+		switch (layoutVersion) {
+		case 1:
+			/* This was the original implementation; however, it did not
+			 * have the desired effect since all the "button panels" were
+			 * "constrained" to their parent JPanel.  so see version 2 below
+			 */
+		    panel = p();
+			panel.setLayout(new GridLayout(1,0));
+				button = b("API&nbsp;Documentation", "Create and publish beautiful documentation");
+				panel.add(button);
+				button = b("Mock&nbsp;Server", "Create a mock server for your in-development APIs");
+				panel.add(button);
+				button = b("Monitor", "Scheduled automated tests and check performance of your APIs");
+				panel.add(button);		
+			container.add(panel);
+			break;
+			
+		case 2:
 			button = b("API&nbsp;Documentation", "Create and publish beautiful documentation");
-			panel.add(button);
+			container.add(button);
 			button = b("Mock&nbsp;Server", "Create a mock server for your in-development APIs");
-			panel.add(button);
+			container.add(button);
 			button = b("Monitor", "Scheduled automated tests and check performance of your APIs");
-			panel.add(button);		
-		container.add(panel);
+			container.add(button);
+			break;
+			
+		}
 		
 	    panel = p();
 	    	panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS)); //(new FlowLayout(FlowLayout.LEFT, 0, 5));
@@ -188,14 +228,14 @@ public class ResponsiveDashboard2 extends ToolbarLayout implements ActionListene
 			panel.add(label);		
 			panel.add(l(" to see how Postman can help you in your work."));		
 			panel.add(Box.createHorizontalGlue());
-		container.add(panel);		
-
-	    // The vertical glue does not work as well as adding 
-	    // a panel with GridBagLayout():
-	    // container.add(Box.createVerticalGlue());
-	    panel = p();
-			panel.setLayout(new GridBagLayout());
 		container.add(panel);
+
+	    // The vertical glue does not work as well as adding a panel with GridBagLayout():
+	    // 		container.add(Box.createVerticalGlue());
+		// However, with the responsive layout working, the extra panel is not necessary either:
+		//	    panel = p();
+		//			panel.setLayout(new GridBagLayout());
+		//		container.add(panel);
 
 	    panel = p();
 	    	panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));

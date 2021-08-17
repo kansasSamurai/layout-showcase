@@ -98,7 +98,9 @@ public class FormsPart01 extends ToolbarLayout implements ActionListener, Scroll
 	// ========== SOLARIZED ==========
 	private static final Color ORANGE = new Color(0xF57C00); // cb4b16
 	
-	private static final Color DARK_GRAY = new Color(0x657b83);
+    private static final Color PURPLE = new Color(138, 109, 182); //focus (136,106,181) //(0x495057);
+
+    private static final Color DARK_GRAY = new Color(0x657b83);
 	
 	private static final Color DARKER_GRAY = new Color(0x586e75);
 	
@@ -107,7 +109,9 @@ public class FormsPart01 extends ToolbarLayout implements ActionListener, Scroll
 	// ========== BORDERS ==========
 	private static final Border BUTTON_BORDER = BorderFactory.createEmptyBorder(10,10,10,10);
 
-	private static final Border CBUTTON_BORDER = BorderFactory.createEmptyBorder(1,1,1,1); //(2,2,2,2);
+	private static final Border CBUTTON_BORDER = BorderFactory.createEmptyBorder(1,1,1,1); //(2,2,2,2); // calendar button border
+
+	private static final Border RBUTTON_BORDER = BorderFactory.createEmptyBorder(2,0,0,2); // radio button border
 
 	private static final Border TABPANEL_BORDER = BorderFactory.createMatteBorder(0, 0, 1, 0, ROLLOVER);
 
@@ -194,12 +198,16 @@ public class FormsPart01 extends ToolbarLayout implements ActionListener, Scroll
 			panel.add(label);	
 
 	    	textfield = new RoundedTextField(); // new RoundField(6); // new RoundedTextField("Thgpq");
-		    spacer(textfield);
-	    	textfield.setColumns(20);
+	    	textfield.setColumns(20); // This has no effect in boxlayout
 	    	textfield.setText("GLUCOSE");
 	    	textfield.setForeground(ORANGE);
 	    	panel.add(textfield);
-			
+	    	
+	    	// The following has no visual effect because there is no component
+	    	// to the right of it and the preceding JTextField has a max size
+	    	// that allows it to expand to fill the space.
+	    	panel.add(Box.createHorizontalGlue());
+
 		if (oldlayout) container.add(panel); else north.add(panel);
 		
 		// ========== NORTH ROW 2 ==========
@@ -213,7 +221,7 @@ public class FormsPart01 extends ToolbarLayout implements ActionListener, Scroll
 
 	    	textfield = new RoundedTextField(); // new RoundField(6); // new RoundedTextField("Thgpq");
 //		    spacer(textfield);
-	    	textfield.setColumns(4);
+	    	textfield.setColumns(5);
 	    	textfield.setText("01005");
 	    	textfield.setForeground(ORANGE);
 	    	panel.add(textfield);
@@ -238,7 +246,7 @@ public class FormsPart01 extends ToolbarLayout implements ActionListener, Scroll
 
 	    	textfield = new RoundedTextField(); // new RoundField(6); // new RoundedTextField("Thgpq");
 //		    spacer(textfield);
-	    	textfield.setColumns(6);
+	    	textfield.setColumns(10);
 	    	textfield.setText("12-05-2020");
 	    	textfield.setForeground(ORANGE);
 	    	panel.add(textfield);
@@ -249,7 +257,7 @@ public class FormsPart01 extends ToolbarLayout implements ActionListener, Scroll
 
 	    	textfield = new RoundedTextField(); // new RoundField(6); // new RoundedTextField("Thgpq");
 //		    spacer(textfield);
-	    	textfield.setColumns(6);
+	    	textfield.setColumns(10);
 	    	textfield.setText("07-22-2021");
 	    	textfield.setForeground(ORANGE);
 	    	panel.add(textfield);
@@ -272,6 +280,25 @@ public class FormsPart01 extends ToolbarLayout implements ActionListener, Scroll
 			radio = radio(group, "Months"); panel.add(radio); radio.setMnemonic(KeyEvent.VK_M);
 			radio = radio(group, "Specific Days"); panel.add(radio); radio.setMnemonic(KeyEvent.VK_S);
 
+		    label = l("PATIENT NAME"); 
+			panel.add(label);	
+		
+			JComponent p3 = new Box(BoxLayout.LINE_AXIS); 
+				p3.setAlignmentX(0.0f); // This is VERY important to get the desired appearance!!
+	    	textfield = new JTextField(); // new RoundField(6); // new RoundedTextField("Thgpq");
+	    	textfield.setColumns(10);
+	    	textfield.setText("07-22-2021");
+	    	textfield.setForeground(PURPLE);
+	    	Border border = BorderFactory.createCompoundBorder(
+	    			BorderFactory.createMatteBorder(1, 20, 1, 20, PURPLE)
+	    			,BorderFactory.createEmptyBorder(0,5,0,5)
+	    	);
+	    	textfield.setBorder(border);
+	    	p3.add(Box.createHorizontalStrut(50));
+	    	p3.add(textfield);
+	    	
+			panel.add(p3); // (textfield);
+			
 		if (oldlayout) container.add(panel); else west.add(panel);
 
 		// ========== CENTER ==========
@@ -284,6 +311,7 @@ public class FormsPart01 extends ToolbarLayout implements ActionListener, Scroll
 
 			label = l("Every "); panel.add(label); label.setHorizontalAlignment(SwingConstants.RIGHT);
 			textfield = new JTextField("20"); panel.add(textfield);	textfield.setHorizontalAlignment(JTextField.CENTER); textfield.setForeground(ORANGE);
+	    	//textfield.setMargin(new Insets(40,0,0,0));
 			label = l(" Day(s)"); panel.add(label);	
 
 		if (oldlayout) container.add(panel); else center.add(panel);
@@ -294,11 +322,11 @@ public class FormsPart01 extends ToolbarLayout implements ActionListener, Scroll
 		    label = l("Which Days?"); 
 			panel.add(label);	
 
-			cbox = cbox("Monday"); panel.add(cbox);
-			cbox = cbox("Tuesday"); panel.add(cbox);
-			cbox = cbox("Wednesday"); panel.add(cbox);
-			cbox = cbox("Thursday"); panel.add(cbox);
-			cbox = cbox("Friday"); panel.add(cbox);        	
+			cbox = cbox("Monday"); panel.add(cbox); cbox.setMnemonic(KeyEvent.VK_M);
+			cbox = cbox("Tuesday"); panel.add(cbox); cbox.setMnemonic(KeyEvent.VK_T);
+			cbox = cbox("Wednesday"); panel.add(cbox); cbox.setMnemonic(KeyEvent.VK_W);
+			cbox = cbox("Thursday"); panel.add(cbox); cbox.setMnemonic(KeyEvent.VK_R);
+			cbox = cbox("Friday"); panel.add(cbox); cbox.setMnemonic(KeyEvent.VK_F);
 
 		if (oldlayout) container.add(panel); else center.add(panel);
 		
@@ -323,6 +351,7 @@ public class FormsPart01 extends ToolbarLayout implements ActionListener, Scroll
 	private JRadioButton radio(ButtonGroup group, String title) {
 		final JRadioButton b = new JRadioButton(title);
 		b.setBackground(Color.white);
+		b.setBorder(RBUTTON_BORDER);
 		group.add(b);
 		return b;
 	}

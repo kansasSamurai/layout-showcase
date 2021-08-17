@@ -434,10 +434,11 @@ final int version = 1;
 		panel = p(false);
 		panel.setBackground(TEAL);
 		panel.setLayout(new BorderLayout());
-			label = l("[]");
-			label.setForeground(Color.WHITE);
-			label.setFont(VERDANA2);
-			panel.add(label, BorderLayout.WEST);
+//			label = l("[]");
+//			label.setForeground(Color.WHITE);
+//			label.setFont(VERDANA2);
+//			panel.add(label, BorderLayout.WEST);
+			button = b2("[]"); panel.add(button, BorderLayout.WEST);
 
 			label = l("[]");
 			label.setForeground(Color.WHITE);
