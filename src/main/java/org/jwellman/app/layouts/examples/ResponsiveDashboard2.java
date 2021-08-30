@@ -117,9 +117,9 @@ public class ResponsiveDashboard2 extends ToolbarLayout implements ActionListene
 
 	protected Component createCenterComponent() {
 		final JPanel outer = new JPanel(new BorderLayout());
-		
-		final JPanel container = new OverflowX(); // new JPanel();
-		//container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));		
+
+		final JPanel container = new OverflowX(); 
+		container.setBackground(Color.WHITE);
 		
 		JPanel panel = null; // reusable panel reference;
 		JLabel label = null; // reusable label reference;
@@ -202,6 +202,9 @@ public class ResponsiveDashboard2 extends ToolbarLayout implements ActionListene
 			break;
 			
 		case 2:
+            /* To allow the "overflow" effect of the parent container, put the
+             * "button panels" directly into the parent container.
+             */
 			button = b("API&nbsp;Documentation", "Create and publish beautiful documentation");
 			container.add(button);
 			button = b("Mock&nbsp;Server", "Create a mock server for your in-development APIs");
@@ -434,7 +437,7 @@ public class ResponsiveDashboard2 extends ToolbarLayout implements ActionListene
 			return b;
 		}
 		case 3: {
-			final RolloverButton b = new RolloverButton(label, 10);
+			final RolloverButton b = new RolloverButton(label, 20);
 			b.setForeground(DARK_GRAY);
 			b.setRollColor(ROLLOVER);
 			b.setPressColor(ROLLOVER);

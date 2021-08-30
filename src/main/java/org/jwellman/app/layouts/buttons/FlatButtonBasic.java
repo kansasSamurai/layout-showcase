@@ -18,9 +18,7 @@ public class FlatButtonBasic extends AFlatButton {
 	private static final Color rollColor = new Color(0x6600CC); // 6600cc = purple
 	
 	private static final Color pressColor = new Color(0x6D6D6D); // 0x5200B8
-	
-	private static final Dimension DIMENSION = new Dimension(0,0);
-	
+
 	private static final Cursor HAND = new Cursor(Cursor.HAND_CURSOR);
 	
 	public FlatButtonBasic(String label) {
@@ -34,10 +32,28 @@ public class FlatButtonBasic extends AFlatButton {
 		this.decorate(label);
 	}
 
+	/**
+	 * This override is necessary to achieve the desired effect when placed
+	 * in a BoxLayout with PAGE_AXIS.  In particular, it restricts the maximum
+	 * height to the preferred height, yet expands the maximum width so that
+	 * the button will fill the container's width.  Also note that this behavior
+	 * may not be desired when placed in containers with a different Layout Manager
+	 * so this class/method would have to be altered to fit the use-case.
+	 * <p>
+	 * Here is an excerpt of the BoxLayout documentation default behavior:<br>
+	 * When a BoxLayout lays out components from top to bottom, it tries to size 
+	 * each component at the component's preferred height. If the vertical space 
+	 * of the layout does not match the sum of the preferred heights, then 
+	 * BoxLayout tries to resize the components to fill the space. 
+	 * The components either grow or shrink to fill the space, with BoxLayout 
+	 * honoring the minimum and maximum sizes of each of the components. 
+	 * Any extra space appears at the bottom of the container.
+	 * 
+	 */
 	@Override
 	public Dimension getMaximumSize() {
-	    Dimension size = getPreferredSize();
-	    size.width = Short.MAX_VALUE;
+	    Dimension size = getPreferredSize(); // default both (particularly the height) to the preferred size
+	    size.width = Short.MAX_VALUE; // let the width expand to fit the container (assuming the container is concerned with the width)
 	    return size;
 	}
 	

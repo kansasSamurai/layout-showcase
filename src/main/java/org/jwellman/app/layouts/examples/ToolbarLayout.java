@@ -13,7 +13,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,7 +21,6 @@ import javax.swing.border.Border;
 
 import org.jwellman.app.layouts.buttons.AFlatButton;
 import org.jwellman.app.layouts.buttons.FlatButtonBasic;
-import org.jwellman.swing.jpanel.OverflowX;
 
 public class ToolbarLayout extends SimpleBorderLayout implements ActionListener {
 
