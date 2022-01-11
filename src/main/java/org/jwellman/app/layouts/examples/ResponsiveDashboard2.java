@@ -168,12 +168,18 @@ public class ResponsiveDashboard2 extends ToolbarLayout implements ActionListene
 			/* To allow the "overflow" effect of the parent container, put the
 			 * "button panels" directly into the parent container.
 			 */
-			button = b("Request", "Create a basic request<br><br>");
-			container.add(button);
-			button = b("Collection", "Save your requests in a collection for reuse and sharing");
-			container.add(button);
-			button = b("Environment", "Save values you frequently use in an environment");
-			container.add(button);
+            button = b("Request", "Create a basic request<br><br>");
+            container.add(button);
+            button = b("Collection", "Save your requests in a collection for reuse and sharing");
+            container.add(button);
+            button = b("Environment", "Save values you frequently use in an environment");
+            container.add(button);
+            button = b("Request", "Create a basic request<br><br>");
+            container.add(button);
+            button = b("Collection", "Save your requests in a collection for reuse and sharing");
+            container.add(button);
+            button = b("Environment", "Save values you frequently use in an environment");
+            container.add(button);
 			break;
 			
 		}
