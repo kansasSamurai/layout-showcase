@@ -206,6 +206,7 @@ public class DashboardLayout extends ToolbarLayout implements ActionListener {
 	    			box.add(Box.createHorizontalGlue());
 	    			box.add(new JLabel(this.iconBlackBook));
 	    		pp.add(box, BorderLayout.SOUTH);
+	    		
 	    		pp.add(l("East"), BorderLayout.EAST);
 	    		pp.add(l("West"), BorderLayout.WEST);
 	    		pp.add(new JLabel(this.iconBlackBook), BorderLayout.CENTER);

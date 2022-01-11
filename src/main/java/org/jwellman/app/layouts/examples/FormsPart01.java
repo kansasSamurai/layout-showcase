@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
@@ -23,6 +24,7 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -31,6 +33,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 
@@ -40,11 +43,18 @@ import org.jwellman.swing.event.FocusAdapterPersistentSelection;
 import org.jwellman.swing.jbutton.RolloverButton;
 import org.jwellman.swing.jbutton.RolloverToggleButton;
 import org.jwellman.swing.jlabel.ActionLabel;
+import org.jwellman.swing.jlist.XList;
 import org.jwellman.swing.jpanel.RestrictedHeightPanel;
 import org.jwellman.swing.jtextfield.RoundField;
 import org.jwellman.swing.jtextfield.RoundedTextField;
 import org.jwellman.swing.layout.ResponsiveLayout;
 import org.jwellman.swing.text.FancyCaret;
+
+import swinghx.chapter09.hack69.GhostComponentAdapter;
+import swinghx.chapter09.hack69.GhostGlassPane;
+import swinghx.chapter09.hack69.GhostMotionAdapter;
+import swinghx.chapter09.hack69.GhostPictureAdapter;
+import swinghx.chapter09.hack69.UIHelper;
 
 /**
  * An example of a form layout; this class originated as a copy of 
@@ -121,6 +131,10 @@ public class FormsPart01 extends ToolbarLayout implements ActionListener, Scroll
 	
 	private static final Border UNSELECTEDTAB_BORDER = BorderFactory.createMatteBorder(0, 0, 3, 0, ROLLOVER);
 	
+	private static final Border LISTITEM_BORDER = BorderFactory.createLineBorder(Color.BLUE, 1);
+	
+	private static final Border LISTLABEL_ADJ = BorderFactory.createEmptyBorder(2, 0, 0, 0);
+
 	// ========== FONTS ==========
 	private static final Font LABEL_FONT = new Font("Calibri", Font.BOLD, 12);
 	
@@ -501,7 +515,15 @@ public class FormsPart01 extends ToolbarLayout implements ActionListener, Scroll
 			container.add(panel);			
 		}
 		
+		container.add(createCustomList());
+		
 		return container;
+	}
+
+	private JScrollPane createCustomList() {
+		XList list = new XList();
+		list.createDemoContent();
+		return list;
 	}
 
 	private JButton b2(String string) {

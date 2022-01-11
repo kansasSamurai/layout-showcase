@@ -7,6 +7,7 @@ import java.net.URL;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -23,6 +24,8 @@ public class ExampleAdapter extends JPanel implements Example, SwingConstants {
 	
 	protected String textDescription;
 	
+	protected JFrame rootFrame;
+	
 	protected static final Color TRANSPARENT = new Color(0,0,0,0);
 
 	private String imagePath = "/images/examples/swing.gif";
@@ -31,8 +34,10 @@ public class ExampleAdapter extends JPanel implements Example, SwingConstants {
 		super();
 	}
 	
-	public ExampleAdapter(LayoutManager layout) {
+	public ExampleAdapter(LayoutManager layout, JFrame f) {
 		super(layout);
+		
+		this.rootFrame = f;
 	}
 
 	@Override

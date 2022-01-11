@@ -44,7 +44,7 @@ public class TextForm extends ExampleAdapter {
 	public TextForm(
 	    String[] labels, char[] mnemonics, int[] widths, String[] tips) {
 		
-		super(new BorderLayout());
+		super(new BorderLayout(), null);
 		
 		JPanel labelPanel = new JPanel(new GridLayout(labels.length, 1));
 		add(labelPanel, BorderLayout.WEST);
