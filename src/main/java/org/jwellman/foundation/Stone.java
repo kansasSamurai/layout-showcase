@@ -63,13 +63,13 @@ protected XInternalFrame internalFrame;
 
 // Look and Feel (LAF) identifiers
 private static final int LAF_MATCHES_SETTING = 1;
-private static final int LAF_WEB = 2;
+private static final int LAF_WEB = 2; // << not yet available for layout-showcase
 private static final int LAF_TBD = 3;
 private static final int LAF_SYSTEM = 4;
 private static final int LAF_NIMROD = 5;
 private static final int LAF_JTATTOO = 6;
 private static final int LAF_DARCULA = 7;
-private static final int LAF_CHOSEN = LAF_WEB;
+private static final int LAF_CHOSEN = LAF_JTATTOO;
 
     public Foundation init() {
         return init(null);
