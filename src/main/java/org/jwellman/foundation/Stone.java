@@ -390,8 +390,12 @@ public IWindow useWindow(JPanel ui) {
     
     // To use a background color with transparency, you *MUST* either:
     // 1. preceed this call with a call to: setUndecorated(true)  -or-
-    // 2. preceed this call with a call to: JFrame.setDefaultLookAndFeelDecorated(true)
-    frame.setBackground(new Color(0,0,0,128 + (16*5)));
+    // 2. preceed this call with a call to: JFrame.setDefaultLookAndFeelDecorated(false)
+    // frame.setBackground(new Color(0,0,0,128 + (16*5)));
+    // TODO 1/11/2022... hopefully temporary:  I have disabled the call to setBackground()
+    // because the rest of the class does not play well with it (per comments 1 and 2 above)
+    // However, I would like to add it back in once I have merged branch neo
+    // with branch master.
     
     // frame.setSize(450, 250);
     if (panel != null) frame.add(panel);
