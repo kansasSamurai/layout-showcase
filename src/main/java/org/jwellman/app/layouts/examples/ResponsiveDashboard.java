@@ -438,16 +438,20 @@ final int version = 1;
 		panel = p(false);
 		panel.setBackground(TEAL);
 		panel.setLayout(new BorderLayout());
-			label = l("[]"); // TODO Action Button with calendar icon
+
+		    // TODO Action Button with calendar icon
+		    label = l("[]");
 			label.setForeground(Color.WHITE);
 			label.setFont(VERDANA2);
 			panel.add(label, BorderLayout.WEST);
 
-			label = l("[]"); // TODO Action Button with clock icon
-			label.setForeground(Color.WHITE);
-			label.setFont(VERDANA2);
-			panel.add(label, BorderLayout.EAST);
-		
+            // TODO Action Button with clock icon
+//          label = l("[]");
+//          label.setForeground(Color.WHITE);
+//          label.setFont(VERDANA2);
+//          panel.add(label, BorderLayout.WEST);
+            button = b2("[]"); panel.add(button, BorderLayout.WEST);
+            
 			panel2 = new JPanel(new GridBagLayout());
 			panel2.setOpaque(false);
 				label = l("12:02 PM");

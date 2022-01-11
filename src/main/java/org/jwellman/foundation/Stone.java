@@ -60,11 +60,12 @@ protected XFrame frame;
 /** The internal frame used in desktop mode */
 protected XInternalFrame internalFrame;
 
+// TODO add this comment to LAF_WEB // << not yet available for layout-showcase
 
 // Look and Feel (LAF) identifiers
 private static final int LAF_MATCHES_SETTING = 1;
-private static final int LAF_WEB = 2; // << not yet available for layout-showcase
-private static final int LAF_TBD = 3;
+private static final int LAF_WEB = 2;
+private static final int LAF_NAPKIN = 3;
 private static final int LAF_SYSTEM = 4;
 private static final int LAF_NIMROD = 5;
 private static final int LAF_JTATTOO = 6;
@@ -116,7 +117,7 @@ private static final int LAF_CHOSEN = LAF_JTATTOO;
 	 		            // Some LnF/Themes use properties (JTattoo, ...)
 			            Properties props = new Properties();
 	
-	          			final int version = LAF_CHOSEN; // LAF_SYSTEM; // LAF_WEB; // LAF_MATCHES_SETTING;
+                        final int version = LAF_SYSTEM; // LAF_NAPKIN; // LAF_SYSTEM; // LAF_WEB; // LAF_MATCHES_SETTING;
 	                    switch (version) {
 	                        case 1:
 	                            // http://robertour.com/2016/04/25/quickly-improving-java-metal-look-feel/
@@ -175,7 +176,7 @@ private static final int LAF_CHOSEN = LAF_JTATTOO;
 	//                            LookAndFeel laf = new NapkinLookAndFeel();
 	//                            UIManager.setLookAndFeel(laf);
 	                            break;
-	                        case LAF_SYSTEM:
+	                        case 4:
 	                            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 	                            break;
 	                        case LAF_NIMROD:
