@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -26,6 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -399,15 +401,17 @@ final int version = 1;
 		// Reusable object refs
 		JPanel panel, panel2;
 		JLabel label;
-		JButton button;
+		AbstractButton button;
 		//RolloverToggleButton rbutton;
 		FlowLayout flow = new FlowLayout(FlowLayout.CENTER, 0, 0);
 		Border border = BorderFactory.createLineBorder(Color.white);
 		
+		// Calendar visual design inspired by:
+		// https://www.cssscript.com/demo/material-date-time-picker-simplepicker/
 		panel = p(false);
 		panel.setLayout(flow);
 		panel.setBackground(DARK_TEAL);		
-			label = l("September 2019");
+			label = l("Wednesday");
 			label.setForeground(Color.WHITE);
 			label.setFont(VERDANA);
 			panel.add(label);
@@ -416,7 +420,7 @@ final int version = 1;
 		panel = p(false);
 		panel.setLayout(flow);
 		panel.setBackground(TEAL);
-			label = l("Monday");
+			label = l("September 2019");
 			label.setForeground(Color.WHITE);
 			label.setFont(VERDANA2);
 			panel.add(label);
@@ -430,7 +434,9 @@ final int version = 1;
 			label.setFont(VERDANA3);
 			panel.add(label);
 		container.add(panel);
-				
+
+		// TODO Action Button with calendar icon
+		// TODO Action Button with clock icon
 		panel = p(false);
 		panel.setBackground(TEAL);
 		panel.setLayout(new BorderLayout());
@@ -454,19 +460,26 @@ final int version = 1;
 			panel.add(panel2, BorderLayout.CENTER);
 		
 		container.add(panel);
-				
+
 		panel = p(false);
 		panel.setBackground(Color.WHITE);
 		panel.setLayout(new BorderLayout());
-			label = l("<");
-			// label.setForeground(Color.WHITE);
-			label.setFont(VERDANA2);
-			panel.add(label, BorderLayout.WEST);
-
-			label = l(">");
-			//label.setForeground(Color.WHITE);
-			label.setFont(VERDANA2);
-			panel.add(label, BorderLayout.EAST);
+		    
+            //		    label = l("<");
+            //			// label.setForeground(Color.WHITE);
+            //			label.setFont(VERDANA2);
+            //			panel.add(label, BorderLayout.WEST);
+		    button = b2("<"); // TODO use a left arrow icon
+		    button.setFont(VERDANA2);
+		    panel.add(button, BorderLayout.WEST);
+		    
+            //			label = l(">");
+            //			//label.setForeground(Color.WHITE);
+            //			label.setFont(VERDANA2);
+            //			panel.add(label, BorderLayout.EAST);
+            button = b2(">"); // TODO use a right arrow icon
+            button.setFont(VERDANA2);
+            panel.add(button, BorderLayout.EAST);
 		
 			panel2 = new JPanel(new GridBagLayout());
 			panel2.setOpaque(false);
@@ -490,6 +503,7 @@ final int version = 1;
 		
 		container.add(panel);
 		
+		// Note for future... some months have 6 rows depending on when the 1st occurs
 		for (int row = 0; row < 5; row++) {
 			panel = p(false);
 			panel.setBackground(Color.WHITE);			
@@ -498,7 +512,14 @@ final int version = 1;
 				final int day = row*7+col;
 				final String s = (day < 32) ? ("" + day) : "";
 				button = b2(s); panel.add(button);
-				if (day > 31) button.setEnabled(false);
+				    if (day > 31) button.setEnabled(false);
+				
+				// simulate current day decoration
+				if (day == 13) {
+				    button.setBorder(BorderFactory.createLineBorder(ORANGE, 3));
+				    button.setBorderPainted(true);
+				}
+				
 			}
 			
 			container.add(panel);			
@@ -507,13 +528,16 @@ final int version = 1;
 		return container;
 	}
 
-	private JButton b2(String string) {
-		Color d = (Color) UIManager.getDefaults().get("Button.disabledText");// .put("Button.disabledText")
-		RolloverButton b = new RolloverButton(string);
+	// Return a JButton or JToggleButton depending on the code
+    private static final Color ROLLOVER_ORANGE = new Color(0x83F57C00, true); // new Color(0x77657b83, true);
+	// (Color) UIManager.getDefaults().get("Button.disabledText");// .put("Button.disabledText")
+	private JToggleButton b2(String string) { 
+		final RolloverToggleButton b = new RolloverToggleButton(string); // RolloverButton // RolloverToggleButton
 		b.setFont(VERDANA);
-		b.setHorizontalAlignment(CENTER);
 		b.setBorder(CBUTTON_BORDER);
-		b.setRollColor(d);
+        b.setRollColor(ROLLOVER_ORANGE);
+        b.setSelectedColor(ROLLOVER_ORANGE);
+        b.setHorizontalAlignment(CENTER);
 //		Insets inset = b.getBorder().getBorderInsets(b);
 //		System.out.println(inset.toString());
 		return b;

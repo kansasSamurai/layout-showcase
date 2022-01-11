@@ -155,13 +155,17 @@ public class DashboardLayout extends ToolbarLayout implements ActionListener {
 			panel.add(label);		
 		container.add(panel);
 	
+		// Design Note:  The way the HTML layout works is that the width of the "header"
+		// (because of the use of the non-breaking space) is what controls the width
+		// of the body text when it is layed out after the JFrame is resized.  
+		// Honestly, it still looks "pretty good" but it does result in cropped text.
 	    panel = p();
 		panel.setLayout(new GridLayout(1,0));
 			button = b("API&nbsp;Documentation", "Create and publish beautiful documentation");
 			panel.add(button);
 			button = b("Mock&nbsp;Server", "Create a mock server for your in-development APIs");
 			panel.add(button);
-			button = b("Monitor", "Scheduled automated tests and check performance of your APIs");
+			button = b("Monitor", "Schedule automated tests and check performance of your APIs");
 			panel.add(button);		
 		container.add(panel);
 		
@@ -362,13 +366,19 @@ public class DashboardLayout extends ToolbarLayout implements ActionListener {
 			break;
 		case 2:
 			b.append("<html>");
-			b.append("<head><style type=\"text/css\">html, body {margin: -3 0 0 0;}</style></head><body>");
-			// The margin in px depends on the size setting on the font in the next line
+			// Q:  What happens if I remove html or body from the CSS?
+			// A:  For whatever reason, both are required for proper alignment of the button text and icon
+            //b.append("<head><style type=\"text/css\">html, body {margin: -3 0 0 0;}</style></head>");
+            b.append("<head><style type=\"text/css\">html, body {margin: -3 0 0 0;}</style></head>");
+			b.append("<body>");
+			
+			// The margin in px (above) depends on the size setting on the font in the next line
 			b.append("<font color=#F57C00 size=+1><b>"); // size=+1			
 			b.append(header);
 			b.append("</b></font><br>");
 			b.append(detail);
-			b.append("</body></html>");
+            b.append("</body>");
+            b.append("</html>");
 			break;
 		default:
 				
