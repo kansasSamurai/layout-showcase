@@ -522,7 +522,7 @@ public class FormsPart01 extends ToolbarLayout implements ActionListener, Scroll
 
 	private JScrollPane createCustomList() {
 		XList list = new XList();
-		list.createDemoContent();
+		list.createDemoContent(50, 1);
 		return list;
 	}
 
