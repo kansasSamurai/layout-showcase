@@ -105,7 +105,8 @@ public class GolfScore extends SimpleBorderLayout {
 	protected Component createCenterComponent() {
 		boolean useGradient = true;
 		JPanel panel = useGradient 
-				? new GradientPanel(new Color(0x557A95), new Color(0x7395AE)) 
+//                ? new GradientPanel(new Color(0x557A95), new Color(0x7395AE)) 
+                        ? new GradientPanel(new Color(0x557A95), Color.RED) 
 				: new JPanel();
 		if (useGradient) panel.setBackground(Color.BLUE);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));

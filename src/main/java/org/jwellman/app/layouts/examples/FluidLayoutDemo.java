@@ -1,19 +1,11 @@
 package org.jwellman.app.layouts.examples;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.border.Border;
 
-import org.jwellman.swing.jpanel.OverflowX;
 import org.jwellman.swing.jpanel.ScrollablePanel;
 import org.jwellman.swing.layout.FluidConstraint;
 import org.jwellman.swing.layout.FluidLayout;
@@ -35,13 +27,15 @@ public class FluidLayoutDemo extends ExampleAdapter {
             ScrollablePanel.VERTICAL, 
             ScrollablePanel.IncrementType.PERCENT, 200);
 
-        final FluidConstraint fc = new FluidConstraint(12,2,2,2,2);
+        final FluidConstraint fc = new FluidConstraint(12,4,3,2,2);
         p.setLayout(new FluidLayout());
         for (int i=0; i<50; i++) {
             if (i == 25 ) {
-                p.add(new JButton("F"), fc); 
+                FluidConstraint fc2 = fc.copy();
+                fc2.sm=1; fc2.xs = 6;                
+                p.add(new JButton("F"), fc2); 
             } else {
-                p.add(new JButton("Fluid")); 
+                p.add(new JButton("Fluid"), fc); 
             }
         }
         

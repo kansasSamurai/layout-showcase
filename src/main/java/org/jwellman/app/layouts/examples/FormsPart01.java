@@ -81,7 +81,7 @@ red       #dc322f  1/1 red      160 #d70000 50  65  45 220  50  47   1  79  86
 magenta   #d33682  5/5 magenta  125 #af005f 50  65 -05 211  54 130 331  74  83
 violet    #6c71c4 13/5 brmagenta 61 #5f5faf 50  15 -45 108 113 196 237  45  77
 blue      #268bd2  4/4 blue      33 #0087ff 55 -10 -45  38 139 210 205  82  82
-cyan      #2aa198  6/6 cyan      37 #00afaf 60 -35 -05  42 161 152 175  74  63
+CYAN      #2aa198  6/6 CYAN      37 #00afaf 60 -35 -05  42 161 152 175  74  63
 green     #859900  2/2 green     64 #5f8700 60 -20  65 133 153   0  68 100  60
 
  * @author rwellman
@@ -354,7 +354,6 @@ public class FormsPart01 extends ToolbarLayout implements ActionListener, Scroll
 	}
 
 	private JCheckBox cbox(String string) {
-		// TODO Auto-generated method stub
     	final JCheckBox cbox = decorate ? cb(string) : new JCheckBox();
     	// cbox.setHorizontalTextPosition(SwingConstants.LEFT);
     	cbox.setBackground(Color.WHITE);
@@ -522,7 +521,7 @@ public class FormsPart01 extends ToolbarLayout implements ActionListener, Scroll
 
 	private JScrollPane createCustomList() {
 		XList list = new XList();
-		list.createDemoContent(50, 1);
+		list.createDemoContent(50, 1); // (100, 0);
 		return list;
 	}
 
